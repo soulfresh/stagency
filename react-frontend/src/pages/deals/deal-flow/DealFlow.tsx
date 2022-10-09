@@ -12,9 +12,19 @@ import { TicketScaling } from './ticket-scaling';
 import { Schedule } from './schedule';
 import { Expenses } from './expenses';
 import { Basics } from './basics';
+import { DealStructure as DealStructurePage } from './deal-structure';
 import { useDealBatchUpdate } from './useDealBatchUpdate';
 
-import type { Deal, Artist, Venue, Person, Event, EventType, EventBillingType } from '~/services/types';
+import type {
+  Deal,
+  Artist,
+  Venue,
+  Person,
+  Event,
+  EventType,
+  EventBillingType,
+  DealStructure,
+} from '~/services/types';
 import type { ReplayableActionType } from '~/utils/types';
 
 import styles from './DealFlow.module.scss';
@@ -258,6 +268,18 @@ export function DealFlow({
       )
     },
     {
+      title: 'Compensation',
+      path: 'structure',
+      render: (props: any) => (
+        <Content {...props}>
+          <DealStructurePage
+            onChange={(e: DealStructure) => console.log('[DealFlow] DealStructure.onChange NOT IMPLEMENTED')}
+            ResizeObserver={ResizeObserver}
+          />
+        </Content>
+      )
+    },
+    {
       title: 'Ticket Scaling & Deductions',
       path: 'ticket-scaling',
       render: (props: any) => (
@@ -267,6 +289,7 @@ export function DealFlow({
             config={config}
             onTicketUpdate={onTicketUpdate}
             onTicketRemove={onTicketRemove}
+            ResizeObserver={ResizeObserver}
           />
         </Content>
       )
@@ -281,6 +304,7 @@ export function DealFlow({
             config={config}
             onExpenseUpdate={onExpenseUpdate}
             onExpenseRemove={onExpenseRemove}
+            ResizeObserver={ResizeObserver}
           />
         </Content>
       )
@@ -297,6 +321,7 @@ export function DealFlow({
             onShowScheduleRemove={onShowScheduleRemove}
             onPerformanceScheduleUpdate={onPerformanceScheduleUpdate}
             onPerformanceScheduleRemove={onPerformanceScheduleRemove}
+            ResizeObserver={ResizeObserver}
           />
         </Content>
       )

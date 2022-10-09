@@ -18,6 +18,7 @@ import {
 
 import styles from './DealStructure.module.scss';
 
+// TODO These should come from app config
 // Associate a component with each deal structure.
 export const TYPES = [
   {component: PercentageOfNet, ...DEAL_STRUCTURES[0]},
@@ -33,7 +34,7 @@ export const TYPES = [
  *
  * @param {object} props
  * @param {string} [props.className]
- * @param {object} [props.dealStructure]
+ * @param {DealStructure} [props.dealStructure]
  * @param {function} [props.onChange]
  * @param {boolean} [props.disableAnimations]
  * @param {function} [props.ResizeObserver]
@@ -41,8 +42,6 @@ export const TYPES = [
  */
 export function DealStructure({
   className,
-  // Example dealStructure:
-  // {id: 1, structureTypeId: 0, artistPercent: 1000, notes: 'foo bar'}
   dealStructure,
   onChange,
   disableAnimations,

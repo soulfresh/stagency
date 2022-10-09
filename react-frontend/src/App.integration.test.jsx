@@ -42,6 +42,25 @@ describe('App', () => {
         });
       });
 
+      // TODO CI Flake:
+      // NoSuchElementError: did not find element with test id "Main", did you mean one of:
+      //
+      //   ┃ testId: "Main" ┃ visible: true ┃
+      //   ┣━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━┫
+      //   ┃ ⨯ null         ┃ ✓ true        ┃
+      //   ┃ ⨯ null         ┃ ✓ true        ┃
+      //   ┃ ⨯ null         ┃ ⨯ false       ┃
+      //   ┃ ⨯ null         ┃ ⨯ false       ┃
+      //   ┃ ⨯ null         ┃ ⨯ false       ┃
+      //   ┃ ⨯ null         ┃ ⨯ false       ┃
+      //   ┃ ⨯ null         ┃ ⨯ false       ┃
+      //
+      //     39 |
+      //     40 |         await act(async () => {
+      //   > 41 |           await HTML({testId: 'Main'}).exists();
+      //        |           ^
+      //     42 |         });
+      //     43 |       })
       it('should render the main app.', async () => {
         await HTML({testId: 'Main'}).exists();
       });

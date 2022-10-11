@@ -43,6 +43,8 @@ export function DealsList({
   onDeleteDeal,
   ResizeObserver,
 }) {
+  // TODO Transition to using `ResponsiveTable`. See below for a good starting
+  // point.
   return (
     <Table aria-label="Deals List" className={styles.dealsList}>
       <thead>
@@ -57,83 +59,202 @@ export function DealsList({
       </thead>
       <tbody>
         {deals.map((deal, i) =>
-          <tr key={deal.id}>
-            <td>
-              {deal.artist
-                ? (
-                  <Avatar
-                    className={styles.avatar}
-                    labelled
-                    name={deal.artist.name}
-                    image={deal.artist.image?.url}
-                    size="s"
-                  />
-                )
-                : <Empty />
-              }
-            </td>
-            <td className={styles.important}>
-              {deal.events.length > 0
-                ? (
-                  <NameList
-                    names={deal.events.map(e => e.venue.name)}
-                    renderTooltipItem={(item, i) =>
-                      <>
-                        <span className={styles.tooltipItemName}>{item}:</span>
-                        {NBSP}
-                        {formatDate(deal.events[i].date)}
-                      </>
-                    }
-                    layerOptions={{ResizeObserver}}
-                  />
-                )
-                : <Empty />
-              }
-            </td>
-            <td className={styles.important}>
-              {deal.events.length > 0
-                ? <DateRange dates={deal.events.map(e => e.date)} />
-                : <Empty />
-              }
-            </td>
-            <td>
-              {formatDate(deal.lastUpdated)}
-            </td>
-            <td className={styles.important}>
-              {deal.status
-                ? deal.status?.comment
-                : <Empty>Pending</Empty>
-              }
-            </td>
-            <td>
-              <Dropdown
-                layerOptions={{ResizeObserver}}
-                content={(first, last) =>
-                  <div className={styles.actionMenu}>
-                    <Action transparent display="button" ref={first} href={getDealURL(deal)}>
-                      Edit
-                    </Action>
-                    <Action
-                      transparent
-                      display="button"
-                      ref={last}
-                      onClick={() => onDeleteDeal(deal)}
-                    >
-                      Delete
-                    </Action>
-                  </div>
-                }
-              >
-                <MoreAction
-                  aria-label="Deal Actions"
+        <tr key={deal.id}>
+          <td>
+            {deal.artist
+              ? (
+                <Avatar
+                  className={styles.avatar}
+                  labelled
+                  name={deal.artist.name}
+                  image={deal.artist.image?.url}
+                  size="s"
                 />
-              </Dropdown>
-            </td>
-          </tr>
+              )
+              : <Empty />
+            }
+          </td>
+          <td className={styles.important}>
+            {deal.events.length > 0
+              ? (
+                <NameList
+                  names={deal.events.map(e => e.venue.name)}
+                  renderTooltipItem={(item, i) =>
+                    <>
+                      <span className={styles.tooltipItemName}>{item}:</span>
+                      {NBSP}
+                      {formatDate(deal.events[i].date)}
+                    </>
+                  }
+                  layerOptions={{ResizeObserver}}
+                />
+              )
+              : <Empty />
+            }
+          </td>
+          <td className={styles.important}>
+            {deal.events.length > 0
+              ? <DateRange dates={deal.events.map(e => e.date)} />
+              : <Empty />
+            }
+          </td>
+          <td>
+            {formatDate(deal.lastUpdated)}
+          </td>
+          <td className={styles.important}>
+            {deal.status
+              ? deal.status?.comment
+              : <Empty>Pending</Empty>
+            }
+          </td>
+          <td>
+            <Dropdown
+              layerOptions={{ResizeObserver}}
+              content={(first, last) =>
+                <div className={styles.actionMenu}>
+                  <Action transparent display="button" ref={first} href={getDealURL(deal)}>
+                    Edit
+                  </Action>
+                  <Action
+                    transparent
+                    display="button"
+                    ref={last}
+                    onClick={() => onDeleteDeal(deal)}
+                  >
+                    Delete
+                  </Action>
+                </div>
+              }
+            >
+              <MoreAction
+                aria-label="Deal Actions"
+              />
+            </Dropdown>
+          </td>
+        </tr>
         )}
       </tbody>
     </Table>
   );
+  //   TODO Replace this with ResponsiveTable. However,
+  //   we'll want to give the respobnsive table a nicer
+  //   layout than simply a vertical list.
+  //   Here is a starting point for the transition:
+  // <ResponsiveTable aria-label="Deals List"
+  //   data={deals}
+  //   columns={[
+  //     {title: 'Artist',        key: 'artist'},
+  //     {title: 'Venues',        key: 'venues' },
+  //     {title: 'Event Dates',   key: 'dates'},
+  //     {title: 'Last Modified', key: 'modified'},
+  //     {title: 'Status',        key: 'status'},
+  //     {title: '',              key: 'actions'},
+  //   ]}
+  //   renderCell={({column, row: deal, ...cellProps}) => {
+  //     const wrap = (props) => (
+  //       <TableCell
+  //         column={column}
+  //         row={deal}
+  //         {...props}
+  //         {...cellProps}
+  //       />
+  //     );
+  //
+  //     switch (column.key) {
+  //       case 'artist':
+  //         return wrap({
+  //           children: deal.artist
+  //             ? (
+  //               <Avatar
+  //                 className={styles.avatar}
+  //                 labelled
+  //                 name={deal.artist.name}
+  //                 image={deal.artist.image?.url}
+  //                 size="s"
+  //               />
+  //             )
+  //             : <Empty />
+  //         });
+  //       case 'venues':
+  //         return wrap({
+  //           children: (
+  //             <span className={styles.important}>
+  //               {deal.events.length > 0
+  //                 ? (
+  //                   <NameList
+  //                     names={deal.events.map(e => e.venue.name)}
+  //                     renderTooltipItem={(item, i) =>
+  //                       <>
+  //                         <span className={styles.tooltipItemName}>{item}:</span>
+  //                         {NBSP}
+  //                         {formatDate(deal.events[i].date)}
+  //                       </>
+  //                     }
+  //                     layerOptions={{ResizeObserver}}
+  //                   />
+  //                 )
+  //                 : <Empty />
+  //               }
+  //             </span>
+  //           )
+  //         })
+  //       case 'dates':
+  //         return wrap({
+  //           children: (
+  //             <span className={styles.important}>
+  //               {deal.events.length > 0
+  //                 ? <DateRange dates={deal.events.map(e => e.date)} />
+  //                 : <Empty />
+  //               }
+  //             </span>
+  //           )
+  //         })
+  //       case 'modified':
+  //         return wrap({
+  //           children: formatDate(deal.lastUpdated)
+  //         });
+  //       case 'status':
+  //         return wrap({
+  //           className: styles.important,
+  //           children: (
+  //             <span className={styles.important}>
+  //               {deal.status
+  //                 ? deal.status?.comment
+  //                 : <Empty>Pending</Empty>
+  //               }
+  //             </span>
+  //           )
+  //         });
+  //       case 'actions':
+  //         return wrap({
+  //           children: (
+  //             <Dropdown
+  //               layerOptions={{ResizeObserver}}
+  //               content={(first, last) =>
+  //                 <div className={styles.actionMenu}>
+  //                   <Action transparent display="button" ref={first} href={getDealURL(deal)}>
+  //                     Edit
+  //                   </Action>
+  //                   <Action
+  //                     transparent
+  //                     display="button"
+  //                     ref={last}
+  //                     onClick={() => onDeleteDeal(deal)}
+  //                   >
+  //                     Delete
+  //                   </Action>
+  //                 </div>
+  //               }
+  //             >
+  //               <MoreAction
+  //                 aria-label="Deal Actions"
+  //               />
+  //             </Dropdown>
+  //           )
+  //         })
+  //     }
+  //   }}
+  // />
 }
 
 

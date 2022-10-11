@@ -1,0 +1,55 @@
+/* Table */
+@import "theme";
+
+$br: m;
+
+// TODO find a better way to do this
+@value br: #{theme-value($theme-light, "breakpoint", $br)};
+
+
+.Table {
+  font-size: font-size(m);
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  th {
+    text-align: start;
+
+    &:not(:last-child) {
+      padding-right: size(xs);
+    }
+  }
+
+  // :global(td), :global(th) {
+  //   border: 1px solid red;
+  // }
+
+  @include breakpoint-down($br) {
+    // Hide table headers (but not display: none;, for accessibility)
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+      opacity: 0;
+    }
+
+    table, tr, thead, th, tbody, td {
+      display: block;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #{foreground(divider)};
+      padding-bottom: size(s);
+      margin-bottom: size(s);
+    }
+
+    td:not(:last-child) {
+      margin-bottom: size(xs);
+    }
+  }
+}
+
+.TableHeader {
+  text-align: start;
+}

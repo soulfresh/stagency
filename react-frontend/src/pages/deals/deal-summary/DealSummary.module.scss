@@ -1,0 +1,79 @@
+/* DealSummary */
+@import "theme";
+
+.DealSummary {
+  display: flex;
+  flex-direction: row;
+  background-color: background();
+  border-radius: radius(m);
+  box-shadow: shadow(hover);
+  padding: size(m);
+}
+
+.Avatar {
+  margin-right: size(m);
+  align-self: start;
+}
+
+@mixin bullet {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: foreground(light-text);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.QuickSummary {
+  .horizontalListItem {
+    display: block;
+
+    &::before {
+      @include bullet;
+      margin-right: size(xxs);
+    }
+
+    @include breakpoint-up(m) {
+      display: inline;
+
+      &::before {
+        content: unset;
+      }
+
+      &:not(:last-child) {
+        &::after {
+          @include bullet;
+          margin: 0 size(xxs);
+        }
+      }
+    }
+  }
+}
+
+.metadata {
+  font-size: font-size(m);
+
+  // border-collapse: separate;
+  // border-spacing: size(xs);
+  width: 100%;
+
+  :global(td) {
+    vertical-align: middle;
+
+    // border: 1px solid red;
+  }
+}
+
+.title {
+  margin: 0;
+}
+
+.gradientText {
+  color: transparent;
+
+  // text-fill-color: transparent;
+  background: linear-gradient(102.11deg, #2355FF 0%, #8223FF 98.78%);
+  background-clip: text;
+  mix-blend-mode: normal;
+}

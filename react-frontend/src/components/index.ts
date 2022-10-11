@@ -1,4 +1,5 @@
 /* PLOP_INJECT_EXPORT */
+export * from './table';
 export * from './fieldset';
 export * from './toasts';
 export * from './are-you-sure';

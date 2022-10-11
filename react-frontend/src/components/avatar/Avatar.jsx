@@ -20,9 +20,9 @@ import styles from './Avatar.module.scss';
  * @param {string} [props.size]
  * @param {boolean} [props.tooltip]
  * @param {string} [props.className]
- * @param {string} [props.labelled]
- * @param {string} [props.title]
- * @param {string} [props.subtitle]
+ * @param {boolean} [props.labelled]
+ * @param {React.ReactNode} [props.title]
+ * @param {React.ReactNode} [props.subtitle]
  * @param {function} [props.ResizeObserver]
  */
 export function Avatar({
@@ -131,11 +131,11 @@ Avatar.propTypes = {
    * Text to show next to the profile picture instead
    * of the avatar name.
    */
-  title: PropTypes.string,
+  title: PropTypes.node,
   /**
    * Text to use as a subtitle under the label/title.
    */
-  subtitle: PropTypes.string,
+  subtitle: PropTypes.node,
   /**
    * A ResizeObserver polyfill for use during testing.
    */

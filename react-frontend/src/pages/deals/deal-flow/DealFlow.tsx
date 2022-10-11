@@ -12,6 +12,7 @@ import { TicketScaling } from './ticket-scaling';
 import { Schedule } from './schedule';
 import { Expenses } from './expenses';
 import { Basics } from './basics';
+import { Finished } from './finished';
 import { DealStructure as DealStructurePage } from './deal-structure';
 import { useDealBatchUpdate } from './useDealBatchUpdate';
 
@@ -68,6 +69,8 @@ interface DealFlowProps extends React.HTMLProps<HTMLDivElement> {
   onVenueSearch: (term: string) => Venue[]
   onBuyerSearch: (term: string) => Person[]
   onCopromoterSearch: (term: string) => Person[]
+  onShare: () => void
+  createDealURL: string
   config: any
   ResizeObserver: () => void
 }
@@ -94,6 +97,8 @@ export function DealFlow({
   onVenueSearch,
   onBuyerSearch,
   onCopromoterSearch,
+  onShare,
+  createDealURL,
   config,
   ResizeObserver,
 }: DealFlowProps) {
@@ -324,6 +329,18 @@ export function DealFlow({
             ResizeObserver={ResizeObserver}
           />
         </Content>
+      )
+    },
+    {
+      title: 'Deal Summary',
+      path: 'summary',
+      render: () => (
+        <Finished
+          deal={deal}
+          onShare={onShare}
+          onSave={onSaveAndExit}
+          createDealURL={createDealURL}
+        />
       )
     },
   ];

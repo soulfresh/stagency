@@ -1,7 +1,13 @@
+export interface Image {
+  url: string
+  width: number
+  height: number
+}
+
 export interface Entity {
   id: string
   name: string
-  image: string
+  image: Image
 }
 
 export type Artist = Entity
@@ -166,8 +172,9 @@ export type DealStatusType = DBEnum
 export interface Deal {
   id: string
   artist: Artist
-  type: EventType
-  billingType: EventBillingType
+  // TODO Should the event type be configurable per event?
+  eventType: EventType
+  eventBillingType: EventBillingType
   events: Event[]
   venues: Venue[]
   tickets: TicketScaling[]

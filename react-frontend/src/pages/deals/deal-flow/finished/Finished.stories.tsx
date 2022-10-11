@@ -1,10 +1,12 @@
 import React from 'react'
+import {fromGraphQL} from '~/services'
+import {generateGraphQL} from '~/services/mocks'
 
-import { {{pascalCase name}} } from './{{pascalCase name}}'
+import { Finished, FinishedProps } from './Finished'
 
 export default {
-  title: 'Components/{{pascalCase name}}',
-  component: {{pascalCase name}},
+  title: 'Pages/DealFlow/Finished',
+  component: Finished,
   // You can use argTypes to further customize the controls
   // in the storybook if you need.
   // https://storybook.js.org/docs/react/api/argtypes
@@ -31,7 +33,9 @@ export default {
   },
   // Default props for your stories.
   // https://storybook.js.org/docs/react/writing-stories/args
-  args: {},
+  args: {
+    deal: fromGraphQL.app_deal(generateGraphQL.app_deal()),
+  },
   parameters: {
     // If you need to change the default layout for stories, you can use
     // one of 'centered', 'fullscreen', 'padded', 'flex'.
@@ -50,14 +54,15 @@ export default {
 }
 
 // The first export will be used as the main story on the page.
-export const Template = (props) => <{{pascalCase name}} {...props} />
+export const Template = (props: FinishedProps) => <Finished {...props} />
+Template.storyName = 'Finished'
 Template.parameters = {
   // Open the source code for the first story
   docs: {source: {state: 'open'}},
 }
 
 // If you want to customize the name:
-// Template.storyName = '{{pascalCase name}}'
+// Template.storyName = 'Finished'
 
 // If you need specific decorators
 // Template.decorators = [centered]

@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { useTimeout } from '@thesoulfresh/react-tools';
+
 import { getRoute } from '~/routes';
-import { PageLoader } from '~/components';
+import { PageLoader, toast } from '~/components';
 import { useGraphQLService } from '~/services';
 import { debouncePromise } from '~/utils';
 import { DealFlow } from '../deal-flow';
@@ -67,6 +69,7 @@ export function CreateDeal({
 }) {
   // TODO Push this up
   const api = useGraphQLService();
+  const wait = useTimeout();
 
   const handleSave = React.useCallback((deal, batch) => api.batchUpdateDeal(deal.id, batch), [api]);
 
@@ -94,6 +97,11 @@ export function CreateDeal({
     [api, searchDelay]
   )
 
+  const onShare = React.useCallback(
+    () => wait(() => toast.success('Your deal has been shared!'), 1000),
+    [wait]
+  )
+
   return (
     <DealFlowMemo
       config={config}
@@ -105,6 +113,8 @@ export function CreateDeal({
       onVenueSearch={onVenueSearch}
       onBuyerSearch={onPersonSearch}
       onCopromoterSearch={onPersonSearch}
+      onShare={onShare}
+      createDealURL={getRoute('CREATE_DEAL')}
     />
   );
 }

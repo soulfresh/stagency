@@ -5,3 +5,4 @@ export * from './expenses';
 export * from './schedule';
 export * from './ticket-scaling';
 export * from './DealFlow';
+export * from './finished';

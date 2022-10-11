@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { useTimeout } from '@thesoulfresh/react-tools';
+
 import { getRoute } from '~/routes';
-import { PageLoader } from '~/components';
+import { PageLoader, toast } from '~/components';
 import { useGraphQLService } from '~/services';
 import { debouncePromise } from '~/utils';
 import { DealFlow } from '../deal-flow';
@@ -74,6 +76,7 @@ export function EditDealConnected({
 }) {
   const id = match?.params?.id
   const api = useGraphQLService();
+  const wait = useTimeout();
 
   const [saving/*, setSaving*/] = React.useState(false);
 
@@ -101,6 +104,11 @@ export function EditDealConnected({
     [api, searchDelay]
   )
 
+  const onShare = React.useCallback(
+    () => wait(() => toast.success('Your deal has been shared!'), 1000),
+    [wait]
+  )
+
   if (saving) return <PageLoader />;
   else {
     return (
@@ -115,6 +123,8 @@ export function EditDealConnected({
             onVenueSearch={onVenueSearch}
             onBuyerSearch={onPersonSearch}
             onCopromoterSearch={onPersonSearch}
+            onShare={onShare}
+            createDealURL={getRoute('CREATE_DEAL')}
           />
         )}
       </WithDeps>

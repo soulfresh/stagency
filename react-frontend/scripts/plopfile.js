@@ -58,19 +58,12 @@ function makeComponentActions(componentType, pageSpecific, fullName, plop) {
       path: `${dir}/{{dashCase '${name}'}}/{{pascalCase '${name}'}}.page-object.ts`,
       templateFile: `plop-templates/component/Component.page-object.ts.hbs`,
     },
-    // {
-    //   // Name.stories.ts (Native on device stories)
-    //   type: 'add',
-    //   data: data,
-    //   path: `${dir}/{{dashCase '${name}'}}/{{pascalCase '${name}'}}.stories.tsx`,
-    //   templateFile: `plop-templates/component/Component.stories.tsx.hbs`,
-    // },
     {
       // Name.stories.ts (Web component documentation)
       type: 'add',
       data: data,
-      path: `${dir}/{{dashCase '${name}'}}/{{pascalCase '${name}'}}.stories.ts`,
-      templateFile: `plop-templates/component/Component.stories.ts.hbs`,
+      path: `${dir}/{{dashCase '${name}'}}/{{pascalCase '${name}'}}.stories.tsx`,
+      templateFile: `plop-templates/component/Component.stories.tsx.hbs`,
     },
     // TODO Move these into the "create if exists and append" loop
     {

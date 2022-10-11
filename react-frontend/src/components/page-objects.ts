@@ -1,4 +1,5 @@
 /* PLOP_INJECT_EXPORT */
+export * from './table/page-objects';
 export * from './fieldset/page-objects';
 export * from './toasts/page-objects';
 export * from './are-you-sure/page-objects';

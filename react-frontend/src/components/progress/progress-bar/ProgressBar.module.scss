@@ -1,0 +1,18 @@
+/* ProgressBar */
+@import "theme";
+
+$height: size(xs);
+
+.ProgressBar {
+  min-height: $height;
+  width: 100%;
+  background-color: color(grayscale, 100);
+}
+
+.bar {
+  background-image: gradient(brand);
+  height: 100%;
+  min-height: $height;
+  min-width: size(xxs);
+  transition: width speed(s) ease(in-out-hard);
+}

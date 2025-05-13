@@ -1,0 +1,53 @@
+/* Deals */
+@import "theme";
+
+// .Deals { }
+
+.important {
+  font-weight: font-weight(extrabold);
+}
+
+.searchLine {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: size(l) 0;
+  margin-bottom: size(s);
+  border-bottom: 2px solid foreground(border);
+
+  & > * {
+    margin-bottom: size(s);
+  }
+
+  @include breakpoint-up(s) {
+    flex-direction: row;
+
+    & > * {
+      margin-left: size(s);
+    }
+
+    .searchInput {
+      width: 200px;
+    }
+  }
+}
+
+.dealList {
+  overflow: scroll;
+
+  // Don't hide the table border
+  padding: 2px;
+}
+
+.avatar {
+  display: flex;
+}
+
+.actionMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltipItemName {
+  font-weight: font-weight(bold);
+}

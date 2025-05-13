@@ -1,0 +1,7 @@
+/* CurrencyInput */
+@import "theme";
+
+.CurrencyInput {
+  @include input;
+  display: block;
+}

@@ -1,0 +1,13 @@
+/* Label */
+@import "theme";
+
+.Label {
+  @include input-label-text;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  padding-bottom: size(xs);
+}

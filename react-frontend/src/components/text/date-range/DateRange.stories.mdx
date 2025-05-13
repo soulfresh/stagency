@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import Faker from 'faker';
+
+import { DateRange } from './DateRange.jsx';
+
+<Meta title="Basics/Text/DateRange" />
+
+# DateRange
+
+<Description of={ DateRange } />
+
+<Canvas>
+  <Story name="DateRange">
+    <DateRange
+      dates={[
+        Faker.date.past(),
+        Faker.date.recent(),
+        Faker.date.future(),
+        Faker.date.recent(),
+      ]}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ DateRange } />

@@ -1,0 +1,37 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { wrapWithRouter, TICKET_TYPES } from '~/test';
+import { generate } from '~/services/mocks';
+import { CreateDeal } from './CreateDeal.jsx';
+
+export const router = s => wrapWithRouter(s());
+export const container = s => <div style={{height: 700}}>{s()}</div>
+
+<Meta
+  title="Pages/Create Deal"
+  decorators={[router, container]}
+/>
+
+# CreateDeal
+
+<Description of={ CreateDeal } />
+
+<Canvas>
+  <Story name="Create Deal">
+    <CreateDeal
+      config={{TICKET_TYPES}}
+      cancelLink="/"
+      emptyDeal={{id: 'abc123'}}
+      onSave={(actions) => new Promise((resolve, reject) => {
+        console.log('saving...', actions);
+        setTimeout(() => {
+          console.log('SAVE COMPLETE', actions)
+          resolve(true);
+        }, 4 * 1000);
+      })}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ CreateDeal } />
+

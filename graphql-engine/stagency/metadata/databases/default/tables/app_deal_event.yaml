@@ -1,0 +1,16 @@
+table:
+  schema: app
+  name: deal_event
+object_relationships:
+  - name: buyer
+    using:
+      foreign_key_constraint_on: buyer_id
+  - name: copromoter
+    using:
+      foreign_key_constraint_on: copromoter_id
+  - name: deal
+    using:
+      foreign_key_constraint_on: deal_id
+  - name: venue
+    using:
+      foreign_key_constraint_on: venue_id

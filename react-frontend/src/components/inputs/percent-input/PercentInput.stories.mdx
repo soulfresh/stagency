@@ -1,0 +1,104 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { ColumnOfItems, Example } from '@thesoulfresh/sass-theming';
+import { Label } from '../../text';
+import { PercentInput, PercentInputRHF } from './PercentInput.jsx';
+
+export const moreSpace = {marginTop: '20px'};
+
+<Meta title="Basics/Inputs/Percent Input" />
+
+# PercentInput
+
+<Description of={ PercentInput } />
+
+<Canvas>
+  <Story name="PercentInput">
+    <Label>Default user locale</Label>
+    <PercentInput defaultValue={7500} />
+    <Label style={moreSpace}>With Placeholder</Label>
+    <PercentInput placeholder="Enter your value" />
+    <Label style={moreSpace}>de-DE</Label>
+    <PercentInput locale="de-DE" defaultValue={10} />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ PercentInput } />
+
+## Feel
+
+You can change the feel of an input by passing the `feel` prop similar
+to the `Action` component.
+
+<Canvas>
+  <Story name="Feel" decorators={[ColumnOfItems]}>
+    <>
+      <PercentInput feel="primary" placeholder="Primary" style={moreSpace} />
+      <PercentInput feel="success" placeholder="Success" style={moreSpace} />
+      <PercentInput feel="error" placeholder="Error" style={moreSpace} />
+      <PercentInput feel="warn" placeholder="Warn" style={moreSpace} />
+    </>
+  </Story>
+</Canvas>
+
+## Error
+
+When the field is invalid, you should pass the `error` prop.
+This is preferred over `feel="error"` as it also sets the `aria-invalid`
+attribute. You can pass either a boolean or an error message.
+
+<Canvas>
+  <Story name="Error" decorators={[ColumnOfItems]}>
+    <>
+      <PercentInput error="No bueno" placeholder="Enter Email" style={moreSpace} />
+    </>
+  </Story>
+</Canvas>
+
+## Clear
+You can show a "clear input" button on the right of the input by
+passing the `clearable` prop. Be aware that the `value` prop determines
+if the input is controlled or uncontrolled which impacts how the input
+gets cleared. If you don't pass a `value` or you only pass the `defaultValue`
+the input is uncontrolled and clearing works automatically. However,
+if you pass non-undefined data as `value`, the input becomes controlled
+and you must also pass the `onValueChange` prop which should update the value
+data.
+
+<Canvas>
+  <Story name="Clearable (controlled)">
+    <Example>
+      {() => {
+        const [value, setValue] = React.useState(1000);
+        return <PercentInput clearable tight value={value} onValueChange={v => ( console.log('[Story] setValue', v.integer), setValue(v.integer) )} />;
+      }}
+    </Example>
+  </Story>
+</Canvas>
+
+The following example shows an **uncontrolled** clearable input.
+<Canvas>
+  <Story name="Clearable (uncontrolled)">
+    <PercentInput clearable tight defaultValue={1000} placeholder="Type a number" />
+  </Story>
+</Canvas>
+
+## Loader
+
+You can also show a loader in the input which is useful for
+asynchronous tasks like searching.
+
+<Canvas>
+  <Story name="Loader" decorators={[ColumnOfItems]}>
+    <>
+      <PercentInput loading placeholder="Loading..." tight />
+    </>
+  </Story>
+</Canvas>
+
+
+## With React Hook Form
+
+<Description of={ PercentInputRHF } />
+
+<ArgsTable of={ PercentInputRHF } />

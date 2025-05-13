@@ -1,0 +1,15 @@
+/* Cell */
+@import "theme";
+
+.Cell {
+  padding-left: size(s);
+  padding-right: size(s);
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.derived {
+  background-color: background(header);
+}

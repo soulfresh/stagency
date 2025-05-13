@@ -1,0 +1,163 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Action } from '../../buttons';
+import { RoutedMultistepFlow } from './RoutedMultistepFlow.jsx';
+
+import { wrapWithRouter } from '~/test';
+export const router = s => wrapWithRouter(s(), 'some/deep/url');
+
+export const content = {padding: 20, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'};
+
+export const Template = props => <RoutedMultistepFlow {...props} />;
+
+<Meta
+  title="Components/Progress/RoutedMultistepFlow"
+  decorators={[router]}
+  argTypes={{
+    onChange: {action: 'change'}
+  }}
+  args={{
+    steps: [{
+      title: 'First Step',
+      path: 'first',
+      render: () => <div style={content}>First Page</div>
+    }, {
+      title: 'Second Step',
+      path: 'second',
+      render: () => <div style={content}>Second Page</div>
+    }, {
+      title: 'Last Step',
+      path: 'third',
+      render: () => <div style={content}>Third and Final Page 🤘</div>
+    }],
+  }}
+/>
+
+# RoutedMultistepFlow
+
+<Description of={ RoutedMultistepFlow } />
+
+<Canvas>
+  <Story
+    name="RoutedMultistepFlow"
+    parameters={{
+      docs: {source: {code: `
+<RoutedMultistepFlow
+  steps={[
+    {title: 'Page 1', path: 'first', render: () => {...}},
+    {title: 'Page 2', path: 'second', render: () => {...}},
+    {title: 'Page 3', path: 'third', render: () => {...}},
+  ]}
+/>
+      `}}
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable of={RoutedMultistepFlow} />
+
+## Customized Header
+
+Similar to the `MultistepFlow` component, you can customize the
+actions on either side of the title by passing the `renderPrevious`
+and `renderNext` props.
+
+The `children` function will also be given the `Router` props
+(history, location, match) and `previousURL`/`nextURL` props
+that it can use to link between states. Since the component
+is route based, you can create links to any step using the
+following:
+
+```js
+<RoutedMultistepFlow ...>
+  {({steps, match}) => {
+    // Use the React Router match object url property to
+    // create links to steps in the flow.
+    const step3URL = match.url + '/' + steps[3].path;
+  }}
+</RoutedMultistepFlow>
+```
+
+export const CustomizedHeader = (props) => (
+  <RoutedMultistepFlow
+    {...props}
+    steps={[{
+      title: 'First Step',
+      path: 'first',
+      render: props => {
+        console.log('render props:', props);
+        return (
+          <div style={content}>
+            <Action href={props.previousURL} display="button">Previous</Action>
+            <div>First Page</div>
+            <Action href={props.nextURL} display="button">Next</Action>
+          </div>
+        );
+      }
+    }, {
+      title: 'Second Step',
+      path: 'second',
+      render: props => {
+        console.log('render props:', props);
+        return (
+          <div style={content}>
+            <Action href={props.previousURL} display="button">Previous</Action>
+            <div>Second Page</div>
+            <Action href={props.nextURL} display="button">Next</Action>
+          </div>
+        );
+      }
+    }, {
+      title: 'Third Step',
+      path: 'third',
+      render: props => {
+        console.log('render props:', props);
+        return (
+          <div style={content}>
+            <Action href={props.previousURL} display="button">Previous</Action>
+            <div>Third Page</div>
+            <Action href={props.nextURL} display="button">Next</Action>
+          </div>
+        );
+      }
+    }]}
+    renderPrevious={(props) => {
+      console.log('renderPrevious props:', props);
+      return (
+        <Action
+          link
+          feel="primary"
+          style={{
+            visibility: props.index > 0 ? 'visible' : 'hidden',
+          }}
+          href={props.previousURL}
+        >
+          Back
+        </Action>
+      )
+    }}
+    renderNext={(props) => {
+      console.log('renderNext props:', props);
+      return (
+        <Action
+          display="link"
+          feel="primary"
+          onClick={() => console.log('SAVE!')}
+        >
+          Save and Exit
+        </Action>
+      );
+    }}
+  />
+);
+
+<Canvas>
+  <Story
+    name="Customized Header"
+  >
+    { CustomizedHeader.bind({}) }
+  </Story>
+</Canvas>
+

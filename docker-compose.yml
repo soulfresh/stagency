@@ -1,0 +1,94 @@
+version: "3"
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@stagency.io
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - stagencynetwork
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  postgres:
+    # Aurora managed serverless is 10.4 whereas RDS goes to 13?
+    image: postgres:10.14
+    container_name: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - stagencynetwork
+    volumes:
+      #- ./postgres-data:/var/lib/postgresql/data
+      # - postgres_data:/var/lib/postgresql
+      - ./postgres:/app
+      # .sql and .sh files in docker-entrypoint-initdb.d will be run on startup
+      - ./postgres:/docker-entrypoint-initdb.d
+
+  graphql-engine:
+    build:
+      context: ./graphql-engine
+      dockerfile: ./Dockerfile.local
+    depends_on:
+    - postgres
+    restart: always
+    ports:
+    - "8090:8080"
+    networks:
+      - stagencynetwork
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      # Disable the console served by server.
+      # IMPORTANT: The hasura console should only ever be served by the
+      # Hasura CLI inorder to ensure migrations are created for DB changes.
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: "true"
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      ## enable debugging mode. It is recommended to disable this in production
+      # HASURA_GRAPHQL_DEV_MODE: "true"
+      # HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+    volumes:
+      - ./graphql-engine/stagency/metadata:/hasura-metadata
+
+## We usually run this locally, but if you want to run it out of a container here it is:
+#  react-frontend:
+#    build:
+#      context: ./
+#      dockerfile: ./react-frontend/Dockerfile.local
+#    ports:
+#    - "3000:3000"
+#    depends_on:
+#      - graphql-engine
+#    networks:
+#      - stagencynetwork
+#    volumes:
+#      - ./react-frontend:/app
+#      - react-frontend-node_modules:/app/node_modules
+
+networks:
+  stagencynetwork:
+    driver: 'bridge'
+
+volumes:
+  postgres_data:
+  react-frontend-node_modules:
+  pgadmin-data:
+
+
+

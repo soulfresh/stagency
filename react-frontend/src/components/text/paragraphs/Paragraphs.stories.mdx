@@ -1,0 +1,17 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Paragraph, BoldParagraph } from './Paragraphs.jsx';
+
+<Meta title="Basics/Text/Paragraphs" />
+
+# Paragraphs
+
+Use `<Paragraph>` and `<BoldParagraph>` in place of `<p>` tags.
+<Canvas>
+  <Story name="Paragraphs">
+    <Paragraph>This is paragraph text</Paragraph>
+    <BoldParagraph>This is BOLD paragraph text</BoldParagraph>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Paragraph } />

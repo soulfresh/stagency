@@ -1,0 +1,11 @@
+table:
+  schema: app
+  name: artist
+array_relationships:
+  - name: deals
+    using:
+      foreign_key_constraint_on:
+        column: artist_id
+        table:
+          schema: app
+          name: deal

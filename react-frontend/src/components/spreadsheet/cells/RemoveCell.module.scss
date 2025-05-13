@@ -1,0 +1,10 @@
+/* RemoveCell */
+@import "theme";
+
+@value SpreadsheetComponent: "../Spreadsheet.module.scss";
+@value remove-column-width from SpreadsheetComponent;
+
+.RemoveCell {
+  height: 100%;
+  width: remove-column-width;
+}

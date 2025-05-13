@@ -1,0 +1,33 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { generate } from '~/services/mocks';
+import { EXPENSE_TYPES, TICKET_TYPES, RouterProvider } from '~/test';
+import { DealFlow } from './DealFlow';
+
+<Meta title="Components/DealFlow"
+  decorators={[
+    cb => <RouterProvider>{cb()}</RouterProvider>,
+  ]}
+/>
+
+# DealFlow
+
+<Description of={ DealFlow } />
+
+<Canvas>
+  <Story name="DealFlow">
+    <DealFlow
+      deal={generate.app_deal()}
+      config={{
+        EXPENSE_TYPES,
+        TICKET_TYPES,
+      }}
+      onCancel={action('onCancel')}
+      onSave={action('onSave')}
+      onSaveAndExit={action('onSaveAndExit')}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ DealFlow } />

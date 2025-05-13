@@ -1,0 +1,26 @@
+/* Tooltip */
+@import "theme";
+
+
+.Tooltip {
+  :global(.content) {
+    padding: size(xxs) size(xs);
+    min-width: size(m);
+    max-width: 250px;
+    font-size: font-size(s);
+    text-align: left;
+    pointer-events: none;
+  }
+
+  @include feel-variations() using ($feel) {
+    :global(.content),
+    :global(.arrow) {
+      background-color: color($feel);
+
+      @if $feel == "warn" or $feel == "success" {
+        color: foreground();
+      }
+    }
+  }
+}
+

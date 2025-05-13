@@ -1,0 +1,8 @@
+/* HR */
+@import "theme";
+
+.HR {
+  border: 0 solid transparent;
+  border-bottom: 2px solid foreground(border);
+  margin: size(s) 0 size(m);
+}

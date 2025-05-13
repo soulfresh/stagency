@@ -1,0 +1,176 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import {
+ ColorPalette,
+  ForegroundPalette,
+  BackgroundPalette,
+  ShadowsPalette,
+  GradientsPalette,
+  FontFamilies,
+  FontSizes,
+  FontWeights,
+  AnimationSpeed,
+  AnimationEasing,
+  Sizes,
+  Breakpoints,
+  Radii,
+} from '@thesoulfresh/sass-theming';
+
+export const backgroundHues = [
+  'default',
+  'header',
+  'input',
+  'hover',
+  'shaded',
+  'deeply-shaded',
+  'overlay',
+  'fade',
+  'focus',
+  'highlight',
+];
+
+<Meta title="Design System/Theme" />
+
+# Stagency Theme
+
+This page shows the project theme and the SASS functions
+you can use to access values from the theme. You can find
+details about how to configure and use the values in the
+theme in the [theme library docs](/?path=/docs/design-system_introduction--page)
+
+## Foregrounds
+
+`foreground($name: text)`
+
+<Story name="Foregrounds">
+  <>
+    <ForegroundPalette name="Foreground" />
+    <ForegroundPalette name="Foreground Dark" dark />
+  </>
+</Story>
+
+## Backgrounds
+
+`background($name: default)`
+
+<Story name="Backgrounds">
+  <>
+    <BackgroundPalette name="Background" hues={backgroundHues} />
+    <BackgroundPalette name="Background Dark" dark hues={backgroundHues} />
+  </>
+</Story>
+
+## Numbered Colors
+
+`color($palette: primary, $hue: 500)`
+
+<Story name="Numbered Colors">
+  <>
+    <ColorPalette name="Primary" />
+    <ColorPalette name="Focus" />
+    <ColorPalette name="Grayscale" />
+    <ColorPalette name="Success" />
+    <ColorPalette name="Warn" />
+    <ColorPalette name="Error" />
+  </>
+</Story>
+
+## Shadows
+
+`shadow($name: overlay)`
+
+<Story name="Shadows">
+  <>
+    <ShadowsPalette name="Shadow" hues={['active', 'hover']}/>
+    <ShadowsPalette name="Shadow Dark" hues={['active', 'hover']} />
+  </>
+</Story>
+
+## Gradients
+
+`gradient($name: light)`
+
+<Story name="Gradients">
+  <>
+    <GradientsPalette name="Gradient" />
+    <GradientsPalette name="Gradient Dark" />
+  </>
+</Story>
+
+## Sizes
+
+`size($name: m)`
+
+<Story name="Sizes">
+  <Sizes />
+</Story>
+
+## Radius
+
+`radius($size: m)`
+
+<Story name="Radius">
+  <Radii />
+</Story>
+
+## Breakpoints
+
+**Mixin:** `breakpoint-up($size: m)`<br/>
+**Function:** `breakpoint($size: m)`
+
+<Story name="Breakpoints">
+  <Breakpoints />
+</Story>
+
+## Z-Index (Layers)
+
+`layer($name: above)`
+
+## Icon Sizes
+
+`icon-size($size: m)`
+
+## Font Families
+
+`font-family($family: body)`
+
+<Story name="Font Families">
+  <FontFamilies />
+</Story>
+
+## Font Sizes
+
+`font-size($size: m)`
+
+<Story name="Font Sizes">
+  <FontSizes
+    sizes={['s', 'm', 'l', 'xl', 'xxl', 'xxxl']}
+  />
+</Story>
+
+## Font Weights
+
+`font-weight($weight: normal)`
+
+<Story name="Font Weights">
+  <FontWeights
+    weights={['extrabold', 'bold', 'medium', 'normal']}
+  />
+</Story>
+
+## Animation Easing
+
+`ease($name: out)`
+
+<Story name="Animation Easing">
+  <AnimationEasing />
+</Story>
+
+## Animation Speed
+
+`speed($speed: m)`
+
+<Story name="Animation Speed">
+  <AnimationSpeed />
+</Story>
+

@@ -1,0 +1,342 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+import fake from 'faker';
+import * as yup from 'yup';
+
+import { combineClasses} from '@thesoulfresh/utils';
+import { Currency, NumberDisplay } from '@thesoulfresh/react-tools';
+
+import { listOf } from '~/test';
+import { formatAPIDocs } from '~/docs';
+
+import TestAPI from './Spreadsheet.page-object.md';
+
+import { Spreadsheet } from './Spreadsheet.jsx';
+import {
+  SpreadsheetColumn,
+  EditableSpreadsheetColumn,
+  SelectableSpreadsheetColumn,
+  TimeSpreadsheetColumn,
+} from './Columns.jsx';
+import {
+  Select,
+  SelectTrigger,
+  SelectOption,
+  CurrencyInput,
+  TimeInput,
+} from '../inputs';
+
+<Meta title="Components/Spreadsheet" />
+
+# Spreadsheet
+
+<Description of={ Spreadsheet } />
+
+export const Template = props => <Spreadsheet {...props} />
+
+<Canvas>
+  <Story
+    name="Spreadsheet"
+  >
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { make: "Toyota"  , model: "Celica" , price: 35000 } ,
+        { make: "Ford"    , model: "Mondeo" , price: 32000 } ,
+        { make: "Porsche" , model: "Boxter" , price: 72000 } ,
+      ]}
+    >
+      <SpreadsheetColumn field="make" />
+      <EditableSpreadsheetColumn field="model" />
+      <SpreadsheetColumn field="price" headerName="Price *" headerTooltip="Base Price. Actual price will vary by state and dealership." />
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Spreadsheet } />
+
+## Columns
+
+The `<*SpreadsheetColumn>` components provide a simple way to create
+spreadsheet cells styled for our project. You can customize the cell
+elements of any column component by passing a function as it's
+children. The `children` render prop is called for each cell in
+the column with the data for that cell and a `ref` which you
+need to attach to the returned JSX element.
+
+The following sections show the different types of column components
+available.
+
+### SpreadsheetColumn
+
+<Description of={ SpreadsheetColumn } />
+
+In the following example, a `Currency` component is used to render
+formatted car prices. Another alternative would be to pass a value
+formatter as describe by the `AgGridColumn` docs.
+
+<Canvas>
+  <Story name="SpreadsheetColumn">
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { make: "Toyota", model: "Celica", price: 35000 },
+        { make: "Ford", model: "Mondeo", price: 32000 },
+        { make: "Porsche", model: "Boxter", price: 72000 },
+      ]}
+    >
+      <SpreadsheetColumn field="make" />
+      <SpreadsheetColumn field="model" />
+      <SpreadsheetColumn field="price">
+        {(props, ref, {value}) =>
+          <Currency value={value} {...props} ref={ref} />
+        }
+      </SpreadsheetColumn>
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+<ArgsTable of={SpreadsheetColumn} />
+
+### Editable Columns
+
+<Description of={EditableSpreadsheetColumn} />
+
+<Canvas>
+  <Story name="Editable Columns">
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { make: "Toyota"  , model: "Celica" , price: 35000 } ,
+        { make: "Ford"    , model: "Mondeo" , price: 32000 } ,
+        { make: "Porsche" , model: "Boxter" , price: 72000 } ,
+      ]}
+      onChange={action('onChange')}
+      onRowChange={action('onRowChange')}
+      onCellChange={action('onCellChange')}
+      onCellValueChanged={action('onCellValueChanged')}
+    >
+      <SpreadsheetColumn field="make" />
+      <EditableSpreadsheetColumn field="model" />
+      <EditableSpreadsheetColumn field="price">
+        {(props, ref, {value}) =>
+          <CurrencyInput transparent value={value} {...props} ref={ref} />
+        }
+      </EditableSpreadsheetColumn>
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+<ArgsTable of={EditableSpreadsheetColumn} />
+
+### Selectable Columns
+
+<Description of={SelectableSpreadsheetColumn} />
+
+<Canvas>
+  <Story name="Selectable Columns">
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { make: "Toyota"  , model: "Celica" , color: ''    , zeroToSixty: '00:00:25'} ,
+        { make: "Toyota"  , model: "Celica" , color: 'red' , zeroToSixty: '00:00:25'} ,
+        { make: "Toyota"  , model: "Celica" , color: 'red' , zeroToSixty: '00:00:25'} ,
+      ]}
+      onChange={e => console.log('onChange', e)}
+    >
+      <SpreadsheetColumn field="make" />
+      <SelectableSpreadsheetColumn
+        field="model"
+        options={['Celica', 'Corola', 'Tacoma']}
+        placeholder="Select a Model"
+      />
+      <SelectableSpreadsheetColumn
+        field="color"
+        options={['red', 'white', 'blue']}
+        placeholder="Select an Option"
+      />
+      <SelectableSpreadsheetColumn
+        field="zeroToSixty"
+      >
+        {(selectProps, {optionToString, ...triggerProps}, triggerRef) =>
+          <TimeInput {...selectProps} {...triggerProps} ref={triggerRef} duration withSeconds />
+        }
+      </SelectableSpreadsheetColumn>
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+<ArgsTable of={SelectableSpreadsheetColumn} />
+
+### Time and Duration Columns
+
+<Description of={TimeSpreadsheetColumn} />
+
+<Canvas>
+  <Story name="Time and Duration Columns">
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { duration: '00:00:25', time: '00:00:00'} ,
+        { duration: '01:00:00', time: '12:30:00'} ,
+        { duration: '00:35:10', time: '18:04:00'} ,
+      ]}
+      onChange={e => console.log('onChange', e)}
+    >
+      <TimeSpreadsheetColumn
+        field="duration"
+        duration
+        withSeconds
+      />
+      <TimeSpreadsheetColumn
+        field="time"
+      />
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+<ArgsTable of={SelectableSpreadsheetColumn} />
+
+### Footers
+
+The following example shows how you can add a "Totals" row at the
+bottom of your spreadsheet. Notice that the `totals` prop is passed
+to the `<Spreadsheet>` and the `reduce` prop is passed
+to the count and price columns in order to derive the "Total" value for that
+column. Additionally, notice how the `footer` prop is used to
+customize the display of the price footer.
+
+<Canvas>
+  <Story name="Spreadsheet Footer">
+    <Spreadsheet
+      domLayout='autoHeight'
+      rowData={[
+        { make: "Toyota" , count: 100 , price: 3500000 } ,
+        { make: "Honda"  , count:  20 , price: 3200000 } ,
+        { make: "Chevy"  , count: 132 , price: 7200000 } ,
+      ]}
+      totals
+    >
+      <SpreadsheetColumn
+        field="make"
+        footer={<span style={{color: 'green'}}>Total</span>}
+      />
+      <SpreadsheetColumn
+        field="count"
+        reduce={(value, total) => total + value}
+      />
+      <EditableSpreadsheetColumn
+        field="price"
+        reduce={(value, total) => total + value}
+        footer={(props, ref, {value}) =>
+          <Currency
+            {...props}
+            ref={ref}
+            pennies
+            decimalScale={2}
+            fixedDecimalScale
+            value={value}
+          />
+        }
+      >
+        {({onChange, ...props}, ref, {value}) =>
+          <CurrencyInput
+            transparent
+            value={value}
+            {...props}
+            ref={ref}
+            onValueChange={e => onChange(e.pennies)}
+          />
+        }
+      </EditableSpreadsheetColumn>
+    </Spreadsheet>
+  </Story>
+</Canvas>
+
+#### A note about `onChange`
+
+Be aware that first parameter to the `children` function prop includes
+an `onChange` handler that needs to be attached to the
+element you return. If you are using one of our customized number
+inputs like `Currency`, be sure you attach that `onChange` handler
+to the `Currency.onValueChange` prop rather than passing it directly.
+That is because the `Currencly.onChange` prop emits its value as the
+input text (not the numeric value) which makes it difficult to reduce
+the column values for the footer. Instead, you should proxy the `onChange`
+using the following code:
+
+```jsx
+<EditableSpreadsheetColumn ...>
+  {({onChange, ...props}, ref, {value}) =>
+    <CurrencyInput
+      onValueChange={e => onChange(e.pennies)}
+      {...props}
+      ref={ref}
+      value={value}
+    />
+  }
+</EditableSpreadsheetColumn>
+```
+
+### User Expandable Spreadsheets
+
+You can allow users to add/remove rows from a spreadsheet by passing
+the `userControlledRows` prop.
+
+<Canvas>
+  <Story name="User Controlled Rows">
+    <div
+      style={{
+        height: 300,
+      }}
+    >
+      <Spreadsheet
+        rowData={listOf(50, (i) => ({
+          index: i + 1,
+          firstName: fake.name.firstName(),
+          lastName: fake.name.lastName(),
+          age: fake.random.number({min: 10, max: 105}),
+        }))}
+        style={{
+          maxHeight: 300,
+        }}
+        userControlledRows
+        totals
+        onChange={action('onChange')}
+        onCellChange={action('onCellChange')}
+        onRowChange={action('onRowChange')}
+        onRemoveRow={action('onRemoveRow')}
+      >
+        <SpreadsheetColumn
+          field="index"
+          reduce={(t, v) => t + v}
+          footer={(props, ref, {value}) =>
+            <NumberDisplay {...props} ref={ref} value={value} />
+          }
+        />
+        <SpreadsheetColumn field="firstName" />
+        <SpreadsheetColumn field="lastName" />
+        <EditableSpreadsheetColumn
+          field="age"
+          reduce={(t, v) => t + v}
+          footer={(props, ref, {value}) =>
+            <NumberDisplay {...props} ref={ref} value={value} />
+          }
+          validate={v =>
+            yup.number()
+              .transform(v => isNaN(v) ? 0 : v)
+              .validate(v)
+          }
+        />
+      </Spreadsheet>
+    </div>
+  </Story>
+</Canvas>
+
+### Testing
+
+The following testing utilities are available from `Spreadsheet.page-object2.js` to help you validate your tables.
+
+
+<Description>{ formatAPIDocs(TestAPI) }</Description>
+

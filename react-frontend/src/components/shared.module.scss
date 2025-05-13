@@ -1,0 +1,74 @@
+/* Shared Component Styles */
+@use "sass:math";
+
+@import "theme";
+
+// Use this file for shared styles between components
+// but NOT for shared mixins. Place mixins or functions
+// in the `src/_utils.scss` file so they will be documented.
+
+@function popover-transition($ease) {
+  @return opacity speed(m) linear, transform speed(m) ease($ease);
+}
+
+// TODO Update sass-theming to easily get unitless values
+$arrowSize: math.div(size(xxs), 1px);
+@value arrowSize: #{$arrowSize};
+
+/// The base styles for popover components like
+/// Tooltip and Dropdown.
+.Popover {
+  transition: popover-transition(out-hard);
+  opacity: 0;
+
+  &:global(.exiting) {
+    transition: popover-transition(in-hard);
+  }
+
+  $move-amount: $arrowSize * 1px;
+  $scale: 0.5;
+
+  &:global(.top) {
+    transform: translateY($move-amount) scale($scale);
+    transform-origin: bottom center;
+  }
+
+  &:global(.bottom) {
+    transform: translateY($move-amount * -1) scale($scale);
+    transform-origin: top center;
+  }
+
+  &:global(.right) {
+    transform: translateX($move-amount * -1) scale($scale);
+    transform-origin: center left;
+  }
+
+  &:global(.left) {
+    transform: translateX($move-amount) scale($scale);
+    transform-origin: center right;
+  }
+
+  &:global(.entered) {
+    opacity: 1;
+
+    &:global(.top),
+    &:global(.bottom),
+    &:global(.right),
+    &:global(.left) {
+      transform: scale(1);
+    }
+  }
+
+  :global(.arrow) {
+    background-color: background-dark();
+    width:  $arrowSize * 1px;
+    height: $arrowSize * 1px;
+  }
+
+  :global(.content) {
+    background-color: background-dark();
+    color: foreground-dark();
+    border-radius: radius(s);
+    overflow: hidden;
+  }
+}

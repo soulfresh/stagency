@@ -1,0 +1,41 @@
+/* DealStructure */
+@import "theme";
+
+.DealStructure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * {
+    max-width: 300px;
+  }
+}
+
+.dealStructureLabel {
+  margin-bottom: size(l);
+}
+
+.trigger {
+  @include ellipsis;
+}
+
+.trigger,
+.select {
+  min-width: 300px;
+  max-width: 300px;
+  text-align: start !important;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionName {
+  font-weight: font-weight(bold);
+  margin-bottom: size(xxs);
+}
+
+.form {
+  width: 100%;
+}

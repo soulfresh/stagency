@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+set -e
+
+# Download the GraphQL schema from a GraphQL endpoint and save it
+# in the /src/services/graphql-api folder. The URL of the GraphQL
+# endpoint should be defined in the environment variable REACT_APP_GRAPHQL_URL.
+# If that environment variable does not exist, then .env.development.locahost
+# file will be sourced which should include that variable.
+echo '📥 Downloading GraphQL Schemas'
+
+if [[ -z "$REACT_APP_GRAPHQL_URL" ]]; then
+  # echo "Sourcing .env.development.localhost" 1>&2
+  echo "Sourcing .env.development.localhost"
+
+  # Load all environment variables in the .env.development.localhost file
+  set -o allexport;
+  source .env.development.localhost;
+  set +o allexport;
+fi
+
+if [ -n "$REACT_APP_GRAPHQL_URL" ]; then
+  echo "Downloading from: $REACT_APP_GRAPHQL_URL"
+  # Get the schema definition from our GraphQL endpoint
+  # - then remove the first line of the output because bash will echo the
+  #   command before running it.
+  #   TODO There has to be a way to execute the command without also echoing it
+  # - finally save the schema to our output file.
+  yarn gq $REACT_APP_GRAPHQL_URL --introspect | tail -n +2 > ./src/services/graphql-service/GraphQLService.schema.graphql
+else
+  echo "☠️  Environment variable REACT_APP_GRAPHQL_URL is not defined. Define it before running this command."
+  exit 1
+fi

@@ -1,0 +1,61 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Description,
+} from "@storybook/addon-docs";
+
+import { action } from "@storybook/addon-actions";
+
+import { artists, venues, buyers, copromoters, EVENT_TYPES, EVENT_BILLING_TYPES } from "~/test";
+import { Basics } from "./Basics.jsx";
+
+<Meta title="Pages/Basics" />
+
+# Basics
+
+<Description of={Basics} />
+
+<Canvas>
+  <Story name="Basics">
+    <Basics
+      eventTypes={EVENT_TYPES}
+      onEventTypeChange={action('onEventTypeChange')}
+      billingTypes={EVENT_BILLING_TYPES}
+      onBillingTypeChange={action('onBillingTypeChange')}
+      onArtistChange={action('onArtistChange')}
+      onArtistSearch={(term) => {
+        if (term) {
+          return artists.filter((a) => new RegExp(term, "i").test(a.name));
+        } else {
+          return [];
+        }
+      }}
+      onEventsChange={action('onEventsChange')}
+      onVenueSearch={(term) => {
+        if (term) {
+          return venues.filter((a) => new RegExp(term, "i").test(a.name));
+        } else {
+          return [];
+        }
+      }}
+      onBuyerSearch={(term) => {
+        if (term) {
+          return buyers.filter((a) => new RegExp(term, "i").test(a.name));
+        } else {
+          return [];
+        }
+      }}
+      onCopromoterSearch={(term) => {
+        if (term) {
+          return copromoters.filter((a) => new RegExp(term, "i").test(a.name));
+        } else {
+          return [];
+        }
+      }}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={Basics} />

@@ -1,0 +1,12 @@
+table:
+  schema: app
+  name: expense_type
+is_enum: true
+array_relationships:
+  - name: expenses
+    using:
+      foreign_key_constraint_on:
+        column: expense_type
+        table:
+          schema: app
+          name: expense

@@ -1,0 +1,15 @@
+/* Basics */
+@import "theme";
+
+// .Basics { }
+
+.EventDetails {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: size(s);
+}
+
+.Padding {
+  margin-bottom: size(l);
+}
+

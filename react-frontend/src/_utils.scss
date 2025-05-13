@@ -1,0 +1,206 @@
+/// Render different styles for the Action feel variations.
+/// This mixin renders the content you pass it for each of
+/// the given feel variations. It also passes the name of
+/// the current feel variation to your content "using ($feel)".
+///
+/// @param {string[]} feels [(primary, success, error, warn)] - The list of "feel" variatios to generate.
+/// @content - The content you wish to render for each feel. Use the `using ($feel)` to access the current feel variation.
+///
+/// ```css
+///     @include feel-variations() using ($feel) {
+///       color: color($feel);
+///     }
+/// ```
+@mixin feel-variations($feels: (primary, success, error, warn), $global: false) {
+  @each $feel in $feels {
+    @if $global {
+      &:global(.#{$feel}) {
+        @content($feel);
+      }
+    }
+    @else {
+      &.#{$feel} {
+        @content($feel);
+      }
+    }
+  }
+}
+
+/// Render a shadow behind an element
+/// when it is hovered or active. This is
+/// achieved by attaching an `::after` element
+/// to the element you add the mixin to.
+/// The `::after` element receives the box-shadow
+/// and it's opacity is transitioned as a speed optimization.
+///
+/// @param {string} active-class [active] - A class name that can be used to show the active-shadow. The class will be "ANDed" to the location you use it.
+/// @param {string} position [relative] - The `position` value of the element receiving the active shadow effect.
+/// @content - This will be used as the content of the `::after` element that receives the box-shadow.
+@mixin active-shadow($active-class: "active", $position: relative) {
+  position: $position;
+
+  // Create an after element behind the element
+  // this is applied to which has the same dimensions
+  // as the element.
+  &::after {
+    box-shadow: shadow(hover);
+    content: "";
+    opacity: 0;
+
+    // Animating the opacity is faster than animating
+    // the box shadow.
+    transition: opacity speed(s) linear;
+    box-sizing: border-box;
+    @include absolute-fill;
+    pointer-events: none;
+
+    @content;
+  }
+
+  // On the active states show the box shadow.
+  &.#{$active-class},
+  &:hover,
+  &:active,
+  &:focus {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+/// Animate the box shadow of an element on hover or
+/// when the specified active class is set. Animating
+/// box shadow is not very efficiant so it's prefered
+/// you use the `active-shadow` mixin if you can. However,
+/// this is availble for elements that don't support
+/// `:after` content.
+@mixin box-shadow-animation($active-class: "active") {
+  transition: box-shadow speed(s) linear, border-color speed(s) linear;
+
+  @include active($active-class) {
+    box-shadow: shadow(hover);
+  }
+}
+
+/// Make an element look and feel like an input element.
+/// When the element has content to display (for example
+/// an input element has a `value` set), you should add the
+/// `hasValue` class to the content container so it
+/// will receive the correct bolded styling.
+///
+/// @example javascript
+/// <input className={!!value ? 'hasValue' : ''} />
+@mixin input($active-class: "active") {
+  font-family: font-family(body);
+  font-size: font-size(m);
+  color: foreground(faded-text);
+  margin: 0;
+
+  // Add a couple pixels to the vertical padding
+  // in order to line up with button elements which
+  // have taller text.
+  padding: #{size(xs) + 1} size(s);
+  outline: none;
+  box-sizing: border-box;
+
+  &:global(.hasIcon) {
+    padding-left: size(xl);
+  }
+
+  &:global(.clearable) {
+    padding-right: size(xl);
+  }
+
+  &:not(:global(.boxy)) {
+    border-radius: radius(s);
+  }
+
+  &:not(:global(.transparent)) {
+    border: 2px solid foreground(border);
+
+    // Unfortunately we have to transition the
+    // box-shadow because input elements cannot
+    // have after content.
+    @include box-shadow-animation($active-class);
+
+    &:focus,
+    &:active {
+      border-color: foreground(focus);
+    }
+  }
+
+  @content;
+
+  &:global(.hasValue) {
+    color: foreground();
+    font-weight: font-weight(bold);
+  }
+
+  &:global(.narrow) {
+    // Add a couple pixels to the vertical padding
+    // in order to line up with button elements which
+    // have taller (bold) text.
+    $p: size(xxs) + 1;
+    padding-top: $p + 1;
+    padding-bottom: $p;
+  }
+
+  &:global(.transparent) {
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  @include feel-variations((primary, success, error, warn), true) using ($feel) {
+    border-color: color($feel);
+    color: color($feel);
+
+    &::placeholder {
+      color: color($feel);
+    }
+  }
+
+  &:global(.error) {
+    :global(.error-message) {
+      opacity: 1;
+    }
+  }
+
+  :global(.error-message) {
+    color: color(error);
+    font-weight: font-weight(medium);
+    font-size: font-size(s);
+    display: inline-block;
+    padding: size(xxs) 0 0 size(s);
+
+    // Hide the message until an error occurs.
+    // This way the form fields don't move around.
+    opacity: 0;
+  }
+}
+
+/// The font styles used to style input <label> elements.
+@mixin input-label-text {
+  font-size: font-size(m);
+  font-weight: font-weight(extrabold);
+}
+
+/// The display styles for an option in a list
+/// that users can choose from. For example,
+/// this is used by the default options in a `Select`
+/// or the default options in a `Search`.
+@mixin list-option {
+  @include unstyled-button;
+  padding: size(xs) size(l);
+  width: 100%;
+  text-align: start;
+  font-size: font-size(l);
+  cursor: pointer;
+  transition: background-color speed(m) linear;
+
+  @include active {
+    background-color: background(highlight);
+    transition: background-color speed(xs) linear;
+  }
+}
+

@@ -1,0 +1,42 @@
+/* Fieldset */
+@import "theme";
+
+.wrapper {
+  position: relative;
+
+  &.tight {
+    .content {
+      padding: size(xxs);
+    }
+  }
+}
+
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  @include input-label-text;
+  margin: 0 0 size(s);
+  padding: 0;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.content {
+  border-radius: radius(s);
+  display: flex;
+  flex-direction: column;
+  background-color: color(grayscale, 100);
+  padding: size(s);
+
+  > :not(:last-child) {
+    margin-bottom: size(xxs);
+  }
+}

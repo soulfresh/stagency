@@ -1,0 +1,29 @@
+diff --git a/node_modules/react-laag/dist/react-laag.cjs.development.js b/node_modules/react-laag/dist/react-laag.cjs.development.js
+index 1919c42..6005a1d 100644
+--- a/node_modules/react-laag/dist/react-laag.cjs.development.js
++++ b/node_modules/react-laag/dist/react-laag.cjs.development.js
+@@ -2003,8 +2003,22 @@ function useLayer(_ref) {
+       }
+ 
+       raf.current = requestAnimationFrame(function () {
+-        setState(newState);
+-        raf.current = null;
++        // JsDom has an issue where RAFs can run in parallel
++        // to the RAF parent and as a result, cancelRequestAnimationFrame
++        // will not stop an inprocess RAF from runing (at least
++        // that's what appears to happen from my debugging). This
++        // can result in component state being modified even
++        // if the component was unmounted which in turn logs errors
++        // from React about unmounted component state updates. The
++        // simplest solution I can find is to check that `ref.current`
++        // was not nullified in the unmount effect. A more complex
++        // (and potentially more future proof) solution would be to
++        // use a ref to store the unmounted state and check that
++        // here instead.
++        if (raf.current != null ) {
++          setState(newState);
++          raf.current = null;
++        }
+       });
+     }
+ 

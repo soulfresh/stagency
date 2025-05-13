@@ -1,0 +1,108 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action as act } from '@storybook/addon-actions';
+
+import { ColumnOfItems, Example } from '@thesoulfresh/sass-theming';
+
+import { Label } from '../../text';
+import { CurrencyInput } from './CurrencyInput.jsx';
+
+<Meta title="Basics/Inputs/Currency Input" />
+
+# Currency Input
+
+<Description of={ CurrencyInput } />
+
+<Canvas>
+  <Story name="Currency Input" decorators={[ColumnOfItems]}>
+    <Label>Default user locale + USD</Label>
+    <CurrencyInput defaultValue={2982988} currency="USD" onValueChange={act('onValueChange')} />
+    <Label >With Placeholder</Label>
+    <CurrencyInput placeholder="Enter your value" onValueChange={act('onValueChange')} />
+    <Label >de-DE + EUR</Label>
+    <CurrencyInput locale="de-DE" currency="EUR" defaultValue={87825663} onValueChange={act('onValueChange')} />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ CurrencyInput } />
+
+## Narrow
+
+You can reduce the padding of the input by specifying the
+`narrow` prop.
+
+<Canvas>
+  <Story name="Narrow">
+    <CurrencyInput narrow locale="hi-IN" placeholder="I'm narrow" onChange={act('onChange')} />
+  </Story>
+</Canvas>
+
+## Feel
+
+You can change the feel of an input by passing the `feel` prop similar
+to the `Action` component.
+
+<Canvas>
+  <Story name="Feel" decorators={[ColumnOfItems]}>
+    <>
+      <CurrencyInput feel="primary" placeholder="Primary"  />
+      <CurrencyInput feel="success" placeholder="Success"  />
+      <CurrencyInput feel="error" placeholder="Error"  />
+      <CurrencyInput feel="warn" placeholder="Warn"  />
+    </>
+  </Story>
+</Canvas>
+
+## Error
+
+When the field is invalid, you should pass the `error` prop.
+This is preferred over `feel="error"` as it also sets the `aria-invalid`
+attribute. You can pass either a boolean or an error message.
+
+<Canvas>
+  <Story name="Error" decorators={[ColumnOfItems]}>
+    <>
+      <CurrencyInput error="Invalid value" placeholder="Enter Email"  />
+    </>
+  </Story>
+</Canvas>
+
+## Clear
+You can show a "clear input" button on the right of the input by
+passing the `clearable` prop. Be aware that the `value` prop determines
+if the input is controlled or uncontrolled which impacts how the input
+gets cleared. If you don't pass a `value` or you only pass the `defaultValue`
+the input is uncontrolled and clearing works automatically. However,
+if you pass non-undefined data as `value`, the input becomes controlled
+and you must also pass the `onValueChange` prop which should update the value
+data.
+
+<Canvas>
+  <Story name="Clearable (controlled)">
+    <Example>
+      {() => {
+        const [value, setValue] = React.useState(1000);
+        return <CurrencyInput clearable tight value={value} onValueChange={v => ( console.log('[Story] setValue', v.pennies), setValue(v.pennies) )} />;
+      }}
+    </Example>
+  </Story>
+</Canvas>
+
+The following example shows an **uncontrolled** clearable input.
+<Canvas>
+  <Story name="Clearable (uncontrolled)">
+    <CurrencyInput clearable tight defaultValue={1000} placeholder="Type a number" />
+  </Story>
+</Canvas>
+
+## Loader
+
+You can also show a loader in the input which is useful for
+asynchronous tasks like searching.
+
+<Canvas>
+  <Story name="Loader" decorators={[ColumnOfItems]}>
+    <>
+      <CurrencyInput loading placeholder="Loading..." tight />
+    </>
+  </Story>
+</Canvas>

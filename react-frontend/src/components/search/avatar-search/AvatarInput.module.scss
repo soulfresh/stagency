@@ -1,0 +1,17 @@
+/* AvatarInput */
+@import "theme";
+
+// .AvatarSearch { }
+
+.AvatarAction {
+  background-color: background(default);
+  padding-right: size(xxl) !important;
+
+  &:global(.hasValue) {
+    padding: size(xxs) size(xxl) size(xxs) size(xxs) !important;
+  }
+}
+
+.Avatar {
+  display: flex;
+}

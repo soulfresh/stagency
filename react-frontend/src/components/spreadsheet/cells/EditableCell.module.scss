@@ -1,0 +1,42 @@
+/* EditableCell */
+@import "theme";
+
+.EditableCell {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  &:global(.error) {
+    background-color: rgba(color(error), 0.15);
+  }
+}
+
+:global {
+  .ag-theme-stagency {
+    .EditableSpreadsheetColumnCell {
+      :local(.EditableCell) {
+        transition: box-shadow speed(s) linear;
+
+        @include active {
+          box-shadow: shadow(hover);
+        }
+      }
+
+      &.ag-cell {
+        &:focus,
+        &:active {
+          :local(.EditableCell) {
+            box-shadow: shadow(hover);
+          }
+        }
+      }
+    }
+  }
+}
+
+.EditableCurrencyCell,
+.EditableNumberCell {
+  text-align: end;
+}
+

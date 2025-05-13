@@ -1,0 +1,27 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { PageBlocker } from './PageBlocker.jsx';
+
+<Meta title="Components/PageBlocker" />
+
+# PageBlocker
+
+<Description of={ PageBlocker } />
+
+<Canvas>
+  <Story name="PageBlocker">
+    <PageBlocker />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ PageBlocker } />
+
+### With Message
+
+You can use the `message` prop to show a custom message next to the page loader.
+
+<Canvas>
+  <Story name="With Message">
+    <PageBlocker message="Saving..." />
+  </Story>
+</Canvas>

@@ -1,0 +1,11 @@
+<svg
+  width="4"
+  height="16"
+  viewBox="0 0 4 16"
+  version="1.1" xmlns="http://www.w3.org/2000/svg"
+  style="fill:currentColor;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+>
+  <path class="top" d="M0,14C0,12.893 0.893,12 2,12C3.107,12 4,12.893 4,14C4,15.107 3.107,16 2,16C0.893,16 0,15.107 0,14Z"/>
+  <path class="middle" d="M2,6C0.893,6 0,6.893 0,8C0,9.107 0.893,10 2,10C3.107,10 4,9.107 4,8C4,6.893 3.107,6 2,6Z"/>
+  <path class="bottom" d="M2,4C3.107,4 4,3.107 4,2C4,0.893 3.107,0 2,0C0.893,0 0,0.893 0,2C0,3.107 0.893,4 2,4Z"/>
+</svg>

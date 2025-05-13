@@ -1,0 +1,30 @@
+/* HeaderCell */
+@import "theme";
+
+.HeaderCell {
+  font-weight: font-weight(bold);
+  @include ellipsis;
+  width: 100%;
+  height: 100%;
+
+  &.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:not(.centered) {
+    padding-left: size(s);
+    padding-right: size(s);
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+.textWrapper {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}

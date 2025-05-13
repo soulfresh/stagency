@@ -1,0 +1,14 @@
+/* Select */
+@import "theme";
+
+.NativeSelect {
+  @include input;
+  @include select-background(
+    $arrow-style: "chevron",
+    $line-cap: "round",
+    $line-join: "round",
+    $arrow-width: 10px,
+    $padding-sides: size(s),
+    $padding-vertical: size(xs),
+  );
+}

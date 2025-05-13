@@ -1,0 +1,7 @@
+/* NumberInput */
+@import "theme";
+
+.NumberInput {
+  @include input;
+  display: block;
+}

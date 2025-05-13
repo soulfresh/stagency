@@ -1,0 +1,30 @@
+/* Search */
+@import "theme";
+
+.Search {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
+.Input {
+  display: block;
+}
+
+.HR {
+  margin-bottom: 0;
+}
+
+.searchResults {
+  @include unbulleted-list;
+  overflow: auto;
+}
+
+.resultWrapper {
+  display: block;
+}
+
+.SearchResult {
+  @include list-option;
+}

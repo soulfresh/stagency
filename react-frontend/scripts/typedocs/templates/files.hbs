@@ -1,0 +1,8 @@
+#### Defined in
+{{#each sources}}
+{{#if (repository-url)}}
+- *[{{fileName}}:{{line}}]({{repository-url}}/{{fileName}}#L{{line}})*
+{{else}}
+- *{{fileName}}:{{line}}*
+{{/if}}
+{{/each}}

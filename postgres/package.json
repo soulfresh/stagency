@@ -1,0 +1,13 @@
+{
+  "name": "postgres",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "seeds:generate": "node ./seeds/generate-dev.js"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
+    "async": "^3.2.4"
+  }
+}

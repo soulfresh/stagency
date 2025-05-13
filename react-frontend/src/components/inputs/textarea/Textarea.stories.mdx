@@ -1,0 +1,41 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Textarea } from './Textarea.jsx';
+
+<Meta title="Basics/Inputs/Textarea" />
+
+# Textarea
+
+<Description of={ Textarea } />
+
+<Canvas>
+  <Story name="Textarea">
+    <Textarea placeholder="Type your notes here..." />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Textarea } />
+
+## Error
+
+<Canvas>
+  <Story name="Error">
+    <Textarea error="This is wrong" placeholder="Type your notes here..." />
+  </Story>
+</Canvas>
+
+## Boxy
+
+<Canvas>
+  <Story name="Boxy">
+    <Textarea boxy placeholder="Type your notes here..." />
+  </Story>
+</Canvas>
+
+## Transparent
+
+<Canvas>
+  <Story name="Transparent">
+    <Textarea transparent placeholder="Type your notes here..." />
+  </Story>
+</Canvas>

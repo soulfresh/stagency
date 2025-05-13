@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+set -e
+
+echo 'Building Docs 🚀'
+
+# Services
+node ./scripts/typedocs/index.js build src/services/auth/index.js --repo https://github.com/soulfresh/react-website-template/tree/master
+node ./scripts/typedocs/index.js build src/services/graphql-utils/index.js --repo https://github.com/soulfresh/react-website-template/tree/master
+node ./scripts/typedocs/index.js build src/services/graphql-utils/mocks/index.js --repo https://github.com/soulfresh/react-website-template/tree/master
+node ./scripts/typedocs/index.js build src/services/graphql-service/index.ts --repo https://github.com/soulfresh/react-website-template/tree/master
+node ./scripts/typedocs/index.js build src/services/graphql-service/mocks/index.js --repo https://github.com/soulfresh/react-website-template/tree/master
+
+# Components
+node ./scripts/typedocs/index.js build src/components/inputs/select/Select.page-object2.js --repo https://github.com/soulfresh/react-website-template/tree/master
+node ./scripts/typedocs/index.js build src/components/spreadsheet/Spreadsheet.page-object2.js --repo https://github.com/soulfresh/react-website-template/tree/master
+
+# Test Utilities
+# Currently erroring (probably because test/index exports @testing-library
+node ./scripts/typedocs/index.js build src/test/docs-index.js --repo https://github.com/soulfresh/react-website-template/tree/master
+
+# SASS utilities
+npx sassdoc2md ./src/_utils.scss > ./src/docs/SASS_Utils.md
+
+

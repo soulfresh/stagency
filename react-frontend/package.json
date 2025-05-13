@@ -1,0 +1,207 @@
+{
+  "name": "react-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "env-cmd -f ./.env.development craco start --no-cache",
+    "start-local": "env-cmd -f ./.env.development.localhost craco start --no-cache",
+    "start-mock": "env-cmd -f ./.env.development.mock craco start --no-cache",
+    "build": "craco build",
+    "analyze-ci": "yarn build && source-map-explorer 'build/static/js/*.js' --html reports/analysis/index.html",
+    "analyze": "yarn analyze-ci && open coverage/analysis/result.html",
+    "bundlesize": "bundlesize",
+    "clean": "rimraf build reports coverage storybook-static .karma",
+    "lint": "yarn eslint && yarn stylelint",
+    "lint-ci": "yarn eslint-ci && yarn stylelint",
+    "lint-fix": "yarn eslint-fix && yarn stylelint-fix",
+    "stylelint": "stylelint 'src/**/*.scss'",
+    "stylelint-fix": "yarn stylelint --fix",
+    "eslint": "eslint --max-warnings 1 --ext js,jsx,ts,tsx src",
+    "eslint-ci": "eslint --max-warnings 1 --ext js,jsx,ts,tsx --config ./.eslintrc.js src",
+    "eslint-fix": "eslint --fix --ext js,jsx,ts,tsx src",
+    "docs": "./scripts/docs",
+    "test": "env-cmd -f ./.env.test craco test --no-cache",
+    "test-unit": "env-cmd -f ./.env.test craco test --testPathIgnorePatterns='integration'",
+    "test-ci": "env-cmd -f ./.env.test craco test --watchAll=false --runInBand --coverage=true --coverageDirectory='reports/coverage' --reporters=default --reporters=jest-junit --ci",
+    "test-debug": "env-cmd -f ./.env.test react-scripts --inspect-brk test --runInBand --no-cache --watch",
+    "test-browser": "env-cmd -f ./.env.test karma start --reporters=progress,kjhtml --browser-loglevel=debug --no-browsers",
+    "coverage": "yarn test-ci --coverageThreshold '{}' && open ./coverage/lcov-report/index.html",
+    "validate": "yarn lint && yarn test-ci --coverage && yarn analyze-ci && yarn build-storybook",
+    "generate": "plop --plopfile ./scripts/plopfile.js",
+    "update-schemas": "./scripts/update-schemas",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages",
+    "deploy-storybook-ci": "storybook-to-ghpages -- --ci",
+    "release": "release-it --npm.publishArgs='--registry=https://registry.npmjs.org'",
+    "postinstall": "yarn patch-package"
+  },
+  "engines": {
+    "node": ">=16.0"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "@thesoulfresh/react-tools": "^1.8.6",
+    "@thesoulfresh/utils": "^0.3.6",
+    "ag-grid-community": "^25.1.0",
+    "ag-grid-react": "^25.1.0",
+    "debounce-promise": "^3.1.2",
+    "deepmerge": "^4.2.2",
+    "graphql": "^16.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.isequal": "^4.5.0",
+    "lodash.merge": "^4.6.2",
+    "query-string": "^7.1.1",
+    "react": "^17.0.2",
+    "react-autosize-textarea": "^7.1.0",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-hook-form": "^7.22.4",
+    "react-hot-toast": "^2.3.0",
+    "react-laag": "^2.0.2",
+    "react-modal": "^3.14.4",
+    "react-router-dom": "^5.2.0",
+    "snake-case": "^3.0.4",
+    "web-vitals": "^2.1.0",
+    "webpack": "~5.70.0"
+  },
+  "devDependencies": {
+    "@craco/craco": "^6.4.3",
+    "@graphql-tools/mock": "^8.6.1",
+    "@graphql-tools/schema": "^8.3.3",
+    "@hidoo/sassdoc-to-markdown": "^0.4.2",
+    "@hookform/devtools": "^4.0.1",
+    "@interactors/html": "^1.0.0-rc1.0",
+    "@ngneat/falso": "^3.0.0",
+    "@storybook/addon-actions": "6.4.19",
+    "@storybook/addon-essentials": "6.4.19",
+    "@storybook/addon-links": "6.4.19",
+    "@storybook/builder-webpack5": "6.4.19",
+    "@storybook/manager-webpack5": "6.4.19",
+    "@storybook/node-logger": "6.4.19",
+    "@storybook/preset-create-react-app": "4.0.0",
+    "@storybook/react": "6.4.19",
+    "@testing-library/dom": "^7.30.0",
+    "@testing-library/jasmine-dom": "^1.2.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@thesoulfresh/interactors": "^0.3.0",
+    "@thesoulfresh/sass-theming": "^1.3.5",
+    "@types/debounce-promise": "^3.1.4",
+    "@types/jest": "^28.1.6",
+    "@types/node": "^18.6.4",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "apollo-link-logger": "^2.0.0",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "8.1.0",
+    "bundlesize": "^0.18.1",
+    "colors": "^1.4.0",
+    "css-loader": "^4.3.0",
+    "env-cmd": "^10.1.0",
+    "faker": "^5.4.0",
+    "file-loader": "^6.2.0",
+    "graphql.macro": "^1.4.2",
+    "graphqurl": "^1.0.1",
+    "html-replace-webpack-plugin": "^2.6.0",
+    "jest-junit": "^13.0.0",
+    "jest-mock": "^27.0.6",
+    "karma": "^6.0.3",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.1.1",
+    "karma-jasmine-html-reporter": "^1.7.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^5.0.0",
+    "node-plop": "^0.30.0",
+    "null-loader": "^4.0.1",
+    "nyc": "^15.1.0",
+    "patch-package": "^6.4.7",
+    "plop": "^3.0.5",
+    "prop-types": "^15.8.1",
+    "react-scripts": "5.0.0",
+    "release-it": "^14.12.5",
+    "resize-observer-polyfill": "^1.5.1",
+    "rimraf": "^3.0.2",
+    "sass": "^1.36.0",
+    "sass-loader": "^10.1.5",
+    "source-map-explorer": "^2.5.2",
+    "source-map-loader": "^1.1.2",
+    "stylelint": "^14.6.0",
+    "stylelint-a11y": "^1.2.3",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-config-standard-scss": "^3.0.0",
+    "typedoc": "^0.22.13",
+    "typescript": "^4.7.4",
+    "typescript-plugin-css-modules": "^3.4.0",
+    "url-loader": "^4.1.1",
+    "yup": "^0.32.11"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.[jt]sx?$": "babel-jest"
+    },
+    "coverageReporters": [
+      "json",
+      "text"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/env.js",
+      "<rootDir>/src/test",
+      "<rootDir>/src/assets/",
+      "<rootDir>/src/theme/hooks",
+      "<rootDir>/src/theme/themes",
+      "<rootDir>/src/docs",
+      "karma-setup",
+      "reportWebVitals",
+      "mock",
+      "page-object",
+      "stories"
+    ]
+  },
+  "jest-junit": {
+    "outputDirectory": "./reports/coverage",
+    "addFileAttribute": "true",
+    "uniqueOutputName": "true"
+  },
+  "bundlesize": [
+    {
+      "path": "./build/static/js/main.*.js",
+      "maxSize": "400 kB"
+    },
+    {
+      "path": "./build/static/js/*.chunk.js",
+      "maxSize": "200 kB"
+    },
+    {
+      "path": "./build/static/css/main.*.css",
+      "maxSize": "80 kB"
+    },
+    {
+      "path": "./build/static/css/*.chunk.css",
+      "maxSize": "10 kB"
+    }
+  ],
+  "storybook-deployer": {
+    "commitMessage": "Deploy Storybook [skip ci]"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

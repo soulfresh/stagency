@@ -1,0 +1,10 @@
+table:
+  schema: app
+  name: ticket_scaling
+object_relationships:
+  - name: deal
+    using:
+      foreign_key_constraint_on: deal_id
+  - name: type
+    using:
+      foreign_key_constraint_on: ticket_type

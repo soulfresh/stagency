@@ -1,0 +1,45 @@
+/* Table */
+@import "theme";
+
+.Table {
+  width: 100%;
+
+  // This allows us to set a border on the tbody
+  border-collapse: collapse;
+
+  :global(th),
+  :global(td) {
+    font-size: font-size(m);
+  }
+
+  :global(th) {
+    padding: size(s) size(m);
+    text-align: start;
+    font-weight: font-weight(bold);
+    color: color(grayscale, 500);
+  }
+
+  :global(td) {
+    padding: size(m);
+  }
+
+  :not(:global(thead)) {
+    :global(tr) {
+      transition: background-color speed(s) linear;
+      &:hover {
+        background-color: background(row-highlight);
+      }
+    }
+  }
+
+  :global(tr:not(:last-child)) {
+    border-bottom: 2px solid foreground(border);
+  }
+
+  :global(tbody) {
+    border-radius: radius(s);
+
+    // border-radius doesn't work on tbody but box-shadow does.
+    box-shadow: 0 0 0 2px foreground(border);
+  }
+}

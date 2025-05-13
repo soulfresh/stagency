@@ -1,0 +1,18 @@
+table:
+  schema: app
+  name: person
+array_relationships:
+  - name: dealEventsByCopromoterId
+    using:
+      foreign_key_constraint_on:
+        column: copromoter_id
+        table:
+          schema: app
+          name: deal_event
+  - name: deal_events
+    using:
+      foreign_key_constraint_on:
+        column: buyer_id
+        table:
+          schema: app
+          name: deal_event

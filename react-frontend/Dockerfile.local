@@ -1,0 +1,11 @@
+FROM node:14.16.0-alpine
+
+COPY ./react-frontend/ /app
+WORKDIR /app
+
+# needed for gl, which neither yarn nor npm likes without these installed:
+RUN yarn install
+
+# We'll eventually want this to be a production build, for now this is fine
+# Will need to have this build and run when not via dockerfile
+ENTRYPOINT ["yarn", "start"]

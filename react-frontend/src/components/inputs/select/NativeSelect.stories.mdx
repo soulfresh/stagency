@@ -1,0 +1,67 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action as act } from '@storybook/addon-actions';
+
+import { Example } from '@thesoulfresh/sass-theming';
+
+import { NativeSelect } from './NativeSelect.jsx';
+
+<Meta title="Basics/Inputs/Native Select" />
+
+# Native Select
+
+<Description of={ NativeSelect } />
+
+<Canvas>
+  <Story name="Native Select">
+    <NativeSelect>
+      <option value="">Select an option...</option>
+      <option value="apples">Apples</option>
+      <option value="oranges">Oranges</option>
+    </NativeSelect>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ NativeSelect } />
+
+## Controlled Component
+
+This component can be either controlled or uncontrolled.
+
+<Canvas>
+  <Story name="Controlled">
+    <Example>
+      {() => {
+        const [value, setValue] = React.useState('apples');
+        const action = act('onChange');
+        const onChange = e => {
+          action(e);
+          setValue(e.target.value);
+        };
+        return (
+          <NativeSelect value={value} onChange={onChange}>
+            <option value="">Select an option...</option>
+            <option value="apples">Apples</option>
+            <option value="oranges">Oranges</option>
+          </NativeSelect>
+        );
+      }}
+    </Example>
+  </Story>
+</Canvas>
+
+## Narrow
+
+You can reduce the padding of the input by specifying the
+`narrow` prop.
+
+<Canvas>
+  <Story name="Narrow">
+    <NativeSelect narrow>
+      <option value="">Select an option...</option>
+      <option value="apples">Apples</option>
+      <option value="oranges">Oranges</option>
+    </NativeSelect>
+  </Story>
+</Canvas>
+
+

@@ -1,0 +1,23 @@
+import React from 'react';
+import { render } from '~/test';
+
+import { {{pascalCase name}} } from './{{pascalCase name}}';
+import { {{pascalCase name}}PO } from './{{pascalCase name}}.page-object';
+
+describe('{{pascalCase name}}', function() {
+  let component: typeof {{pascalCase name}}PO;
+
+  beforeEach(() => {
+    component = {{pascalCase name}}PO({ testId: '{{pascalCase name}}' });
+    render(
+      <{{pascalCase name}}
+        data-testid="{{pascalCase name}}"
+      />
+    );
+  });
+
+  it('should render.', async () => {
+    await component.exists();
+  });
+});
+

@@ -1,0 +1,4 @@
+table:
+  name: default_expense
+  schema: app
+is_enum: true

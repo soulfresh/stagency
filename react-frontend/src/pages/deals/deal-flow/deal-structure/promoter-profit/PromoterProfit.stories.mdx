@@ -1,0 +1,18 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { PromoterProfit } from './PromoterProfit.jsx';
+
+<Meta title="Pages/DealStructure/Forms/PromoterProfit" />
+
+# PromoterProfit
+
+<Description of={ PromoterProfit } />
+
+<Canvas>
+  <Story name="PromoterProfit">
+    <PromoterProfit onChange={action('onChange')} />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ PromoterProfit } />

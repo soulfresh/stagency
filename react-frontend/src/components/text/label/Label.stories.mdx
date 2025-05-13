@@ -1,0 +1,20 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Label } from './Label.jsx';
+import { Input } from '../../inputs';
+
+<Meta title="Basics/Text/Label" />
+
+# Label
+
+<Description of={ Label } />
+
+<Canvas>
+  <Story name="Label">
+    <Label title="First Name">
+      <Input placeholder="So what's your name???" />
+    </Label>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Label } />

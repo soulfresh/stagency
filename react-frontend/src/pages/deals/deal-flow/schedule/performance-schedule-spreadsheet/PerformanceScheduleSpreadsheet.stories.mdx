@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { generate } from '~/services/mocks';
+import { listOf } from '~/test';
+import { PerformanceScheduleSpreadsheet } from './PerformanceScheduleSpreadsheet.jsx';
+
+<Meta title="Spreadsheets/PerformanceScheduleSpreadsheet" />
+
+# PerformanceScheduleSpreadsheet
+
+<Description of={ PerformanceScheduleSpreadsheet } />
+
+<Canvas>
+  <Story name="PerformanceScheduleSpreadsheet">
+    <PerformanceScheduleSpreadsheet
+      data={listOf(7, () => generate.app_performance_schedule({allowEmpty: true}))}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ PerformanceScheduleSpreadsheet } />

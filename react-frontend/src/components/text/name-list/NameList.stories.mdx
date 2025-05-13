@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { listOf, fake } from '~/test';
+import { NameList } from './NameList.jsx';
+
+<Meta title="Basics/Text/NameList" />
+
+# NameList
+
+<Description of={ NameList } />
+
+<Canvas>
+  <Story name="NameList">
+    <NameList
+      names={[
+        'Nina Simone',
+        'Smokey Robinson',
+        'Diana Ross',
+        'Michael Jackson'
+      ]}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ NameList } />

@@ -1,0 +1,30 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions'
+
+import { Action } from '../buttons'
+import { AreYouSure } from './AreYouSure';
+
+<Meta title="Components/AreYouSure" />
+
+# AreYouSure
+
+<Description of={ AreYouSure } />
+
+<Canvas>
+  <Story name="AreYouSure">
+    <AreYouSure
+      onVerify={action('onVerify')}
+      onCancel={action('onCancel')}
+      message="This will do bad stuff ☠️ "
+    >
+      <Action
+        display="link"
+        feel="primary"
+      >
+        Delete 🗡
+      </Action>
+    </AreYouSure>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ AreYouSure } />

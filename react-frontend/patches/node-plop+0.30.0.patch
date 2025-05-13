@@ -1,0 +1,24 @@
+diff --git a/node_modules/node-plop/src/actions/append.js b/node_modules/node-plop/src/actions/append.js
+index e2e4018..4daf6b1 100644
+--- a/node_modules/node-plop/src/actions/append.js
++++ b/node_modules/node-plop/src/actions/append.js
+@@ -9,6 +9,10 @@ import {
+ 
+ import actionInterfaceTest from './_common-action-interface-check.js';
+ 
++function escapeRegExp(text) {
++  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
++}
++
+ const doAppend = async function (data, cfg, plop, fileData) {
+ 	const stringToAppend = await getRenderedTemplate(data, cfg, plop);
+ 	// if the appended string should be unique (default),
+@@ -20,7 +24,7 @@ const doAppend = async function (data, cfg, plop, fileData) {
+ 		const parts = fileData.split(cfg.pattern);
+ 		const lastPart = parts[parts.length - 1];
+ 		const lastPartWithoutDuplicates = lastPart.replace(
+-			new RegExp(separator + stringToAppend, 'g'),
++			new RegExp(escapeRegExp(separator + stringToAppend), 'g'),
+ 			''
+ 		);
+ 		fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);

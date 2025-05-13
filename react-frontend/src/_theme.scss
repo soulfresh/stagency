@@ -1,0 +1,107 @@
+@use "sass:map";
+
+$primary: #2255FF;
+$focus: #c410ff;
+
+// Import utilities for generating the themes.
+@import "@thesoulfresh/sass-theming/utils";
+@import "@thesoulfresh/sass-theming/variables";
+
+$palette-grayscale: make-palette-2(#EAEAEF, #0F0E14);
+
+// stylelint-disable-next-line function-comma-newline-after
+$palette-foreground-light: map.merge(map.get($theme-light, "foreground"), (
+  "light-text": rgba($black, 0.6),
+  "faded-text": rgba($black, 0.5),
+  "border": map.get($palette-grayscale, 100),
+));
+// stylelint-disable-next-line function-comma-newline-after
+$palette-background-light: map.merge(map.get($theme-light, "background"), (
+  // Must be mostly transparent for table dropshadows to
+  // look like they overlay the header backgrounds.
+  "header": rgba($black, 0.05),
+  "row-highlight": rgba($primary, 0.03),
+));
+
+$dark-default: #2B2B32;
+// stylelint-disable-next-line function-comma-newline-after
+$palette-background-dark: map.merge(map.get($theme-dark, "background"), (
+  "default": $dark-default,
+  "input": rgba($white, 0.1),
+  "hover": rgba($white, 0.1),
+  // Must be mostly transparent for table dropshadows to overlay the header backgrounds.
+  "header": rgba($white, 0.1),
+  "row-highlight": rgba($primary, 0.03),
+));
+
+$palette-font-family: (
+  "title": ("Proxima Nova", sans-serif()),
+  "body": ("Proxima Nova", sans-serif()),
+  "code": monospace(),
+);
+
+$palette-font-size: (
+  "xxxl": 36,
+  "xxl": 24,
+  "xl": 18,
+  "l": 16,
+  "m": 14,
+  "s": 12,
+  "xs": 10,
+);
+
+$palette-font-weight: (
+  "extrabold": 800,
+  "bold": 600,
+  "medium": 400,
+  "normal": 200,
+);
+
+// stylelint-disable-next-line function-comma-newline-after
+$palette-size: map.merge(map.get($theme-light, "size"), (
+  "xxs": 6,
+));
+
+// stylelint-disable-next-line function-comma-newline-after
+$palette-gradient: map.merge(map.get($theme-light, "gradient"), (
+  "brand": linear-gradient(102.11deg, #2355FF 0%, #8223FF 98.78%),
+));
+
+$overrides: (
+  "primary": make-palette($primary),
+  "grayscale": $palette-grayscale,
+  "focus": make-palette($focus),
+  "success": make-palette-3(#D6FFEB, #1FE686, #045a31),
+  "warn": make-palette-3(#FFF7CC, #FFE454, #4c4313),
+  "error": make-palette-3(#FFD4D4, #ED4E4E, #460d0d),
+  "font-family": $palette-font-family,
+  "font-size": $palette-font-size,
+  "font-weight": $palette-font-weight,
+  "size": $palette-size,
+  "shadow": (
+    "active": 0 8px 20px rgba(18 25 69 / 0.12),
+    "hover":  0 12px 30px rgba(18 25 69 / 0.2),
+  ),
+  "gradient": $palette-gradient,
+  "radius": (
+    "s": 6,
+    "m": 18,
+    "l": 24,
+  )
+);
+
+// stylelint-disable-next-line function-comma-newline-after
+$theme-light: map.merge($theme-light, map.merge($overrides, (
+  "foreground": $palette-foreground-light,
+  "background": $palette-background-light,
+)));
+// stylelint-disable-next-line function-comma-newline-after
+$theme-dark: map.merge($theme-dark, map.merge($overrides, (
+  "background": $palette-background-dark,
+)));
+
+@import "@thesoulfresh/sass-theming/theme";
+
+// Import our project specific tools
+@import "utils";
+

@@ -1,0 +1,260 @@
+/* Action */
+@import "theme";
+
+@function feel-hue($feel) {
+  @return if($feel == warn, 600, 500);
+}
+
+@function border($color) {
+  @return 2px solid $color;
+}
+
+@function icon-padding($size) {
+  @return (icon-size(l) - icon-size($size)) * 0.5;
+}
+
+.Action.styled {
+  // DISABLED
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  // BUTTONS
+  &.button {
+    display: inline-block;
+    transition: border-color speed(s) linear;
+    text-align: center;
+
+    &:not(.placeholder) {
+      font-weight: font-weight(extrabold);
+      font-size: font-size(l);
+    }
+
+    &.placeholder {
+      color: foreground(faded-text);
+      font-size: font-size(m);
+
+      // Add a couple pixels to the vertical padding
+      // in order to line up with button elements which
+      // have taller text.
+      padding: #{size(xs) + 1} size(m);
+      text-align: start;
+    }
+
+    // Box shadow animation needs.
+    &:not(.transparent):not(.icon) {
+      position: relative;
+      box-sizing: border-box;
+
+      @include active-shadow;
+
+      &:focus {
+        // This is important to ensure it takes precendence
+        // over the pill border colors.
+        border-color: foreground(focus) !important;
+      }
+    }
+
+    // BORDER RADIUS
+    &:not(.pill):not(.boxy):not(.icon) {
+      border-radius: radius(s);
+
+      &::after {
+        border-radius: radius(s);
+      }
+    }
+
+    // NARROW
+    &.narrow,
+    &.transparent {
+      &:not(.placeholder) {
+        padding: size(xxs) size(m);
+      }
+
+      // The placeholder text is not bold like the normal text
+      // so we need to give a little extra padding so the buttons
+      // are the same height.
+      &.placeholder {
+        padding: #{size(xxs) + 2} size(m);
+      }
+    }
+
+    &:not(.narrow):not(.transparent):not(.icon):not(.placeholder) {
+      padding: size(xs) size(m);
+    }
+
+    // OUTLINED BUTTON
+    &:not(.solid):not(.icon) {
+      &:not(.transparent) {
+        border: border(foreground(border));
+      }
+
+      @include feel-variations() using ($feel) {
+        $hue: feel-hue($feel);
+
+        &:not(.placeholder) {
+          color: color($feel, $hue);
+        }
+
+        &:not(.transparent) {
+          border: border(color($feel, $hue));
+        }
+
+        &:focus {
+          border-color: foreground(focus);
+        }
+      }
+    }
+
+    // SOLID BUTTON
+    &.solid {
+      &:not(.transparent) {
+        color: foreground-dark();
+
+        &:not(.pill) {
+          background-color: color(grayscale);
+          border: border(color(grayscale));
+        }
+
+        @include feel-variations() using ($feel) {
+          // This is important so it will override the default pill background color.
+          background-color: color($feel, feel-hue($feel)) !important;
+          border: border(color($feel, feel-hue($feel)));
+
+          &:focus {
+            border-color: foreground(focus);
+          }
+        }
+      }
+    }
+
+    // SIZES
+    &.s {
+      font-size: font-size(m);
+    }
+
+    &.l {
+      font-size: font-size(xl);
+    }
+
+    // PILL
+    &.pill:not(.transparent) {
+      $c: color(grayscale, 900);
+
+      border: border($c);
+      border-radius: radius(l);
+      white-space: nowrap;
+
+      &::after {
+        border-radius: radius(l);
+      }
+
+      &.solid {
+        background-color: $c;
+      }
+    }
+
+    // TRANSPARENT
+    &.transparent {
+      transition: opacity speed(s) linear, color speed(s) linear;
+
+      @include feel-variations() using ($feel) {
+        $hue: feel-hue($feel);
+        color: color($feel, $hue);
+      }
+
+      @include active {
+        opacity: 0.7;
+      }
+
+      &:focus {
+        color: foreground(focus);
+      }
+    }
+
+    // ICON BUTTON
+    &.icon {
+      background-color: transparent;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: color speed(s) linear;
+
+      &:not(.boxy) {
+        border-radius: 50%;
+      }
+
+      svg {
+        display: block;
+      }
+
+      @include feel-variations() using ($feel) {
+        $hue: feel-hue($feel);
+        color: color($feel, $hue);
+      }
+
+      @include active {
+        color: color(focus);
+      }
+
+      &.s {
+        padding: icon-padding(s);
+
+        svg {
+          width:  icon-size(s);
+          height: icon-size(s);
+        }
+      }
+
+      &.m {
+        padding: icon-padding(m);
+
+        svg {
+          width: icon-size(m);
+          height: icon-size(m);
+        }
+      }
+
+      &.l {
+        svg {
+          width:  icon-size(l);
+          height: icon-size(l);
+        }
+      }
+    }
+  }
+
+  // LINKS
+  &.link {
+    transition: color speed(s) linear;
+    font-size: font-size(m);
+
+    // ACTIVE STATE
+    @include active {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      color: foreground(focus);
+    }
+
+    // FEELS
+    @include feel-variations() using ($feel) {
+      color: color($feel, feel-hue($feel));
+
+      &:focus {
+        color: foreground(focus);
+      }
+    }
+
+    // SIZES
+    &.s {
+      font-size: font-size(s);
+    }
+
+    &.l {
+      font-size: font-size(xl);
+    }
+  }
+}

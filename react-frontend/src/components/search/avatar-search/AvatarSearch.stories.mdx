@@ -1,0 +1,57 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { artists } from '~/test';
+import { AvatarSearch } from './AvatarSearch.jsx';
+
+<Meta title="Components/search/AvatarSearch" />
+
+# AvatarSearch
+
+<Description of={ AvatarSearch } />
+
+<Canvas>
+  <Story name="AvatarSearch">
+    <AvatarSearch
+      placeholder="Search Artists..."
+      onSearch={(term) => {
+        action('onSearch')(term)
+        if (term) {
+          return artists
+            .filter(a => new RegExp(term, 'i').test(a.name));
+        } else {
+          return [];
+        }
+      }}
+      getName={a => a.name}
+      getImage={a => a.image.url}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ AvatarSearch } />
+
+### With Value
+
+You can use the `value` prop to set the initial value of the search. The value
+needs to be an Avatar object.
+
+<Canvas>
+  <Story name="With Value">
+    <AvatarSearch
+      value={artists[0]}
+      placeholder="Search Artists..."
+      onSearch={(term) => {
+        action('onSearch')(term)
+        if (term) {
+          return artists
+            .filter(a => new RegExp(term, 'i').test(a.name));
+        } else {
+          return [];
+        }
+      }}
+      getName={a => a.name}
+      getImage={a => a.image.url}
+    />
+  </Story>
+</Canvas>

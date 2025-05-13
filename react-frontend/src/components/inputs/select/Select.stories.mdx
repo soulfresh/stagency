@@ -1,0 +1,182 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Description,
+} from "@storybook/addon-docs";
+import { action } from "@storybook/addon-actions";
+
+import { ColumnOfItems, Column } from "@thesoulfresh/sass-theming";
+
+import TestAPI from "./Select.page-object.md";
+
+import { formatAPIDocs } from "~/docs";
+import { DEAL_STRUCTURES } from "~/model";
+import { TICKET_TYPES } from "~/test";
+import { Select, SelectOption, SelectTrigger } from './Select.jsx';
+
+export const moreSpace = { margin: "5px" };
+
+<Meta title="Basics/Inputs/Select" />
+
+# Select
+
+<Description of={Select} />
+
+<Canvas>
+  <Story
+    name="Select"
+    decorators={[
+      (s) => (
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          {s()}
+        </div>
+      ),
+    ]}
+  >
+    <Select
+      options={["Apple", "Orange", "Cat"]}
+      content={(item) => <SelectOption>{item}</SelectOption>}
+      disableTransitions
+    >
+      {(props, item) => (
+        <SelectTrigger {...props}>
+          {item ? item : "Select a Fruit"}
+        </SelectTrigger>
+      )}
+    </Select>
+    <Select
+      options={DEAL_STRUCTURES}
+      optionToString={(i) => i.name}
+      content={(item) => <SelectOption>{item.name}</SelectOption>}
+      disableTransitions
+    >
+      {(props, item) => (
+        <SelectTrigger {...props}>
+          {item ? item.name : "Select With Object Values"}
+        </SelectTrigger>
+      )}
+    </Select>
+  </Story>
+</Canvas>
+
+<ArgsTable of={Select} />
+
+## Compact
+
+For large select lists, you can pass the `compact` prop which will
+render the options in multiple columns so the user can see more
+of the options at once.
+
+<Canvas>
+  <Story name="Compact Display">
+    <Select
+      options={TICKET_TYPES}
+      optionToString={(item) => item.comment}
+      onChange={action("onChange")}
+      compact
+    >
+      {(props, item) => (
+        <SelectTrigger {...props}>
+          {item ? item.comment : "Ticket Type"}
+        </SelectTrigger>
+      )}
+    </Select>
+  </Story>
+</Canvas>
+
+## Controlled
+
+This component can also be used in a controlled manner by supplying
+the `isOpen` and/or the `value` prop based on which part of the state
+you need to control.
+
+<Canvas>
+  <Story name="Controlled">
+    <Column>
+      {() => {
+        const [isOpen, setIsOpen] = React.useState(true);
+        const [value, setValue] = React.useState(TICKET_TYPES[3]);
+        return (
+          <Select
+            value={value}
+            isOpen={isOpen}
+            onClose={(state) => {
+              console.log("onClose", state);
+              setIsOpen(false);
+            }}
+            onOpen={(state) => {
+              console.log("onOpen", state);
+              setIsOpen(true);
+            }}
+            onChange={(v, state) => {
+              console.log("onChange", v, state);
+              setValue(v);
+            }}
+            options={TICKET_TYPES}
+            optionToString={(item) => item.comment}
+          >
+            {(props, item) => (
+              <SelectTrigger {...props}>
+                {item ? item.comment : "Select a Fruit"}
+              </SelectTrigger>
+            )}
+          </Select>
+        );
+      }}
+    </Column>
+  </Story>
+</Canvas>
+
+## Select Trigger
+
+While `Select` can take any element as it's trigger, in
+most cases you'll want to use the `<SelectTrigger>` provided
+by this package in order to achieve the consistent styling.
+
+<Description of={SelectTrigger} />
+
+<Canvas>
+  <Story name="SelectTrigger" decorators={[ColumnOfItems]}>
+    <SelectTrigger style={moreSpace}>Standard Trigger</SelectTrigger>
+    <SelectTrigger narrow style={moreSpace}>
+      Narrow Trigger
+    </SelectTrigger>
+    <SelectTrigger feel="primary" style={moreSpace}>
+      Primary Trigger
+    </SelectTrigger>
+    <SelectTrigger solid feel="primary" style={moreSpace}>
+      Solid Trigger
+    </SelectTrigger>
+  </Story>
+</Canvas>
+
+<ArgsTable of={SelectTrigger} />
+
+## Select Option
+
+Similarly to the `SelectTrigger`, you can return any content from the
+`Select` component's `content` prop but this package provides an
+`<SelectOption>` component which makes it easier to achieve consistent styling.
+
+<Description of={SelectOption} />
+
+<Canvas>
+  <Story name="SelectOption" decorators={[ColumnOfItems]}>
+    <SelectOption>Standard Trigger</SelectOption>
+  </Story>
+</Canvas>
+
+<ArgsTable of={SelectOption} />
+
+## Testing
+
+The following methods are available from `Select.page-objects` to help
+you query Select components in your tests.
+
+All of the following queries include the full `@testing-library` query
+variants. For example, `getSelectMenuByTrigger` also has the `queryAllSelectMenusByTrigger`,
+`findSelectMenuByTrigger`, etc variants.
+
+<Description>{formatAPIDocs(TestAPI)}</Description>

@@ -1,0 +1,201 @@
+/* Spreadsheet */
+@use "sass:math";
+
+@import "theme";
+
+@import "ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+
+$remove-column-width: icon-size(l) + size(xs);
+$cell-height: 48px;
+@value remove-column-width #{$remove-column-width};
+
+// These are the unit-less value exposed to JS
+@value removeColumnWidth #{math.div($remove-column-width, 1px)};
+@value cellHeight #{math.div($cell-height, 1px)};
+
+// TODO Get this scoping working rather than what's used below.
+// :global {
+//   :local(.Spreadsheet) {
+//     .ag-theme-stagency {
+//       @include ag-theme-alpine((
+//         foreground-color: #ff00ff,
+//       ));
+//     }
+//   }
+// }
+
+// TODO Figure out how to get the above working.
+:global {
+  .ag-theme-stagency {
+    @include ag-theme-alpine((
+      // Turn ooff borders so we can manage them ourselves.
+      // This is necessary because we ant 2px borders but
+      // ag-grid only supports 1px borders.
+      borders: false,
+      borders-secondary: false,
+
+      // COLORS
+      foreground-color: foreground(),
+      background-color: background(),
+      // The header row background color.
+      header-background-color: transparent,
+      // Turn off the border radius so we can customize it
+      // ourselves. This is necessary because ag-grid uses this
+      // variable to set a radius on cells but we only want the
+      // radius on the outer spreadsheet.
+      border-radius: 0,
+      // outer border and header/content/footer separator
+      border-color: transparent,
+      row-border-color: foreground(border),
+      row-hover-color: background(row-highlight),
+      alpine-active-color: color(focus),
+      range-selection-border-color: color(focus),
+
+      // Turn off odd row backgrounds per the design.
+      odd-row-background-color: transparent,
+
+      // FONTS
+      font-family: font-family(body),
+      font-size: font-size(m),
+
+      // SIZING
+      // This is the base size ag-grid uses to calculate all
+      // other dimensions. Unfortunately cell sizes won't exactly
+      // match our Action components but it will at least get us close.
+      grid-size: size(xxs),
+      cell-horizontal-padding: 0,
+    ));
+
+    // Set the outer border of the spreadsheet.
+    .ag-root-wrapper {
+      border-radius: radius(s);
+    }
+
+    .ag-layout-auto-height {
+      // Reduce the default auto height from 150px so we can
+      // have smaller tables without empty rows.
+      .ag-center-cols-clipper,
+      .ag-center-cols-container {
+        min-height: 100px;
+      }
+    }
+
+    .ag-header-row {
+      &:first-child {
+        .first {
+          border-top-left-radius: radius(s);
+        }
+
+        .last {
+          border-top-right-radius: radius(s);
+        }
+      }
+    }
+
+    // Set the correct border sizing for rows.
+    .ag-row {
+      // For some reason the alpine font-size parameter
+      // is not working.
+      font-size: font-size(m);
+
+      transition: background-color speed(l) linear;
+      &:hover {
+        transition: background-color speed(s) linear;
+      }
+
+      &:not(.ag-row-hover) {
+        // Allow the cell box shadows to show through.
+        background-color: transparent;
+      }
+    }
+
+    .ag-header-cell {
+      // Give all cells a border.
+      border: 1px solid foreground(border);
+    }
+
+    .ag-cell {
+      // Give all cells a border.
+      border: 1px solid foreground(border);
+
+      // Allow the box-shadow behind editable cells to show.
+      overflow: visible;
+    }
+
+    // The wrapper around our custom cell renderers.
+    .ag-react-container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    .ag-cell-inline-editing {
+      border: none !important;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
+      background-color: transparent;
+      height: 100%;
+      outline: none !important;
+    }
+  }
+}
+
+.Spreadsheet {
+  // Add a 1px border around the spreadsheet to
+  // make it look like a 2px border.
+  border: 1px solid foreground(border);
+  border-radius: radius(s);
+
+  // Make sure we never run into issues with
+  // the two borders not touching by giving the
+  // background the same color.
+  background-color: foreground(border);
+
+  &.fill {
+    height: 100%;
+
+    &:not(.userControlledRows) {
+      width: 100%;
+    }
+  }
+
+  &:not(.totals) {
+    :global {
+      // The content rows
+      .ag-center-cols-container {
+        .ag-row {
+          &:last-child {
+            .first {
+              border-bottom-left-radius: radius(s);
+            }
+
+            .last {
+              border-bottom-right-radius: radius(s);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.totals {
+    :global {
+      // The pinned bottom row
+      .ag-floating-bottom {
+        .ag-row {
+          &:last-child {
+            .first {
+              border-bottom-left-radius: radius(s);
+            }
+
+            .last {
+              border-bottom-right-radius: radius(s);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

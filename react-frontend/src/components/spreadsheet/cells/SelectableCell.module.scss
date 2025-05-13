@@ -1,0 +1,43 @@
+/* SelectableCell */
+@import "theme";
+
+// .SelectableCell { }
+
+.SelectTrigger {
+  width: 100%;
+  height: 100%;
+  text-align: start;
+}
+
+.triggerText {
+  // Elispsis should be used when selects are inside
+  // a cell because the button will not be able to
+  // grow vertically.
+  @include ellipsis;
+
+  // This is necessary for ellipsis to work.
+  display: block;
+}
+
+:global {
+  .ag-theme-stagency {
+    .SelectableSpreadsheetColumnCell {
+      :local(.SelectTrigger) {
+        @include active-shadow;
+      }
+
+      &.ag-cell-focus {
+        border-color: foreground(focus);
+        border-left-color: foreground(focus) !important;
+
+        :local(.SelectTrigger) {
+          // Show the shadow when the cell is focused
+          // as well as the standard hover states.
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

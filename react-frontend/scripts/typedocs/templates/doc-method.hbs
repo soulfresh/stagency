@@ -1,0 +1,11 @@
+### {{className}}.{{name}}
+
+{{#each signatures}}
+
+{{#if comment}}{{> description}}{{/if}}
+
+{{#if parameters}}{{> parameters}}{{/if}}
+{{/each}}
+
+{{#if sources}}{{> files}}{{/if}}
+<br/>

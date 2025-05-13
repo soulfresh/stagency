@@ -1,0 +1,9 @@
+<svg
+  width="10"
+  height="6"
+  viewBox="0 0 10 6"
+  xmlns="http://www.w3.org/2000/svg"
+  style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;"
+>
+  <path d="M9,1l-4,4l-4,-4l8,0Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2px;"/>
+</svg>

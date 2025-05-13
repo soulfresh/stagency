@@ -1,0 +1,18 @@
+/* Textarea */
+@import "theme";
+
+.InputDecorator {
+  width: 100%;
+}
+
+.Textarea {
+  @include input;
+  box-sizing: border-box;
+  min-height: size(m) * 6;
+  width: 100%;
+  resize: none;
+
+  &:global(.hasValue) {
+    font-weight: font-weight(medium);
+  }
+}

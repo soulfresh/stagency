@@ -1,0 +1,14 @@
+## {{name}}
+
+{{> signatures}}
+
+{{#each signatures}}
+{{#if comment}}{{> description}}{{/if}}
+
+{{#if parameters}}{{> parameters}}{{/if}}
+
+{{#if type}}{{> return}}{{/if}}
+{{/each}}
+
+{{#if sources}}{{> files}}{{/if}}
+<br/>

@@ -1,0 +1,27 @@
+/* TimeInput */
+@import "theme";
+
+.AmPm,
+.TimeColumn {
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+
+.Option {
+  @include list-option;
+  padding: size(xxs) size(m);
+}
+
+.dropdownContent {
+  display: flex;
+  flex-direction: row;
+  max-height: 200px;
+}
+
+.TimeInput {
+  > :global(.content) {
+    padding: 0;
+  }
+}
+

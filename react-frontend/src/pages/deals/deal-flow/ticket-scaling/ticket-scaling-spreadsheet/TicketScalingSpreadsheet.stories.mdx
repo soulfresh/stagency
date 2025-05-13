@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { listOf, TICKET_TYPES } from '~/test';
+import { generate } from '~/services/mocks';
+
+import { TicketScalingSpreadsheet } from './TicketScalingSpreadsheet.jsx';
+
+<Meta title="Spreadsheets/TicketScalingSpreadsheet" />
+
+# TicketScalingSpreadsheet
+
+<Description of={ TicketScalingSpreadsheet } />
+
+<Canvas>
+  <Story name="TicketScalingSpreadsheet">
+    <TicketScalingSpreadsheet
+      data={listOf(3, () => generate.app_ticket_scaling({randomize: true, allowEmpty: false}))}
+      types={TICKET_TYPES}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ TicketScalingSpreadsheet } />

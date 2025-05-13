@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Loader } from './Loader.jsx';
+import './icon/loader.css';
+
+<Meta title="Basics/Loader" />
+
+# Loader
+
+<Description of={Loader} />
+
+<Canvas>
+  <Story name="Loader">
+    <div
+      style={{
+        height: '200px',
+      }}
+    >
+      <Loader />
+    </div>
+  </Story>
+</Canvas>
+
+<ArgsTable of={Loader} />
+

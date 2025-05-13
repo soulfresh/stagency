@@ -1,0 +1,12 @@
+table:
+  schema: app
+  name: ticket_type
+is_enum: true
+array_relationships:
+  - name: ticket_scalings
+    using:
+      foreign_key_constraint_on:
+        column: ticket_type
+        table:
+          schema: app
+          name: ticket_scaling

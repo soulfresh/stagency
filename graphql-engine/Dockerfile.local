@@ -1,0 +1,9 @@
+FROM hasura/graphql-engine:latest.cli-migrations-v3
+COPY ./ /app
+WORKDIR /app
+
+RUN apt-get update
+RUN apt-get install -y curl netcat vim
+# You could just mount this via a volume instead:
+#RUN cp -R /app/stagency /hasura_metadata
+RUN curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash

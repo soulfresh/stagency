@@ -1,0 +1,36 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { combineClasses } from '@thesoulfresh/utils';
+
+import styles from './{{pascalCase name}}.module.scss';
+
+/**
+ * `<{{pascalCase name}}>`
+ *
+ * @param {object} props
+ * @param {string} [props.className]
+ * @return {React.ReactElement}
+ */
+export function {{pascalCase name}}({
+  className,
+  ...rest
+}) {
+  return (
+    <div data-testid="{{pascalCase name}}"
+      className={combineClasses(styles.{{pascalCase name}}, className)}
+      {...rest}
+    >
+    </div>
+  );
+}
+
+{{pascalCase name}}.propTypes = {
+  className: PropTypes.string,
+  /**
+   * Any other props you pass will be forwarded to the root
+   * element.
+   */
+  'other props...': PropTypes.any,
+};
+

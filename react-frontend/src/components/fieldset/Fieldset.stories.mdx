@@ -1,0 +1,62 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { Input } from '../inputs';
+import { Label } from '../text';
+import { Fieldset } from './Fieldset';
+
+<Meta title="Components/Fieldset" />
+
+# Fieldset
+
+<Description of={ Fieldset } />
+
+<Canvas>
+  <Story name="Fieldset">
+    <Fieldset
+      legend="Example Fieldset"
+    >
+      <Label title="Dogs"><Input placeholder="Enter Yes if you like dogs"/></Label>
+      <Label title="Cats"><Input placeholder="Enter Yes if you like cats"/></Label>
+    </Fieldset>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Fieldset } />
+
+### Tight
+
+You can tighten up the padding inside of the FieldSet by passing the `tight`
+prop. This can be useful for content that doesn't need space for error messages
+such as AvatarSearch components or radio/checkbox groups.
+
+<Canvas>
+  <Story name="Tight">
+    <Fieldset
+      legend="Tight Fieldset"
+      tight
+    >
+      <Input tight placeholder="Enter Yes if you like dogs"/>
+      <Input tight placeholder="Enter Yes if you like cats"/>
+    </Fieldset>
+  </Story>
+</Canvas>
+
+### Removable
+
+If the FieldSet is part of a list, you can pass the `onDelete` callback prop
+to add a delete button to the FieldSet.
+
+<Canvas>
+  <Story name="Delete">
+    <Fieldset
+      legend="Delete Fieldset"
+      tight
+      onDelete={() => action('onDelete')}
+      deleteText="Delete Pet Chooser"
+    >
+      <Input tight placeholder="Enter Yes if you like dogs"/>
+      <Input tight placeholder="Enter Yes if you like cats"/>
+    </Fieldset>
+  </Story>
+</Canvas>

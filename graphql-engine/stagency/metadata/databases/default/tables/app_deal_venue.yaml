@@ -1,0 +1,10 @@
+table:
+  schema: app
+  name: deal_venue
+object_relationships:
+  - name: deal
+    using:
+      foreign_key_constraint_on: deal_id
+  - name: venue
+    using:
+      foreign_key_constraint_on: venue_id

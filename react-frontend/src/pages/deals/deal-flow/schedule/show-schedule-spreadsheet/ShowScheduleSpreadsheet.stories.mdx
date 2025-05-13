@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { generate } from '~/services/mocks';
+import { listOf } from '~/test';
+import { ShowScheduleSpreadsheet } from './ShowScheduleSpreadsheet.jsx';
+
+<Meta title="Spreadsheets/ShowScheduleSpreadsheet" />
+
+# ShowScheduleSpreadsheet
+
+<Description of={ ShowScheduleSpreadsheet } />
+
+<Canvas>
+  <Story name="ShowScheduleSpreadsheet">
+    <ShowScheduleSpreadsheet
+      data={listOf(4, () => generate.app_show_schedule({allowEmpty: true}))}
+      onChange={action('onChange')}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ ShowScheduleSpreadsheet } />

@@ -1,0 +1,284 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      # Find the latest images at
+      # https://circleci.com/developer/images/image/cimg/node
+      - image: cimg/node:16.13.2-browsers
+    working_directory: ~/stagency
+  # speedtest:
+  #   machine: true
+  #   working_directory: ~/stagency
+
+parameters:
+  project_name:
+    type: string
+    default: stagency
+  cache_id:
+    type: string
+    default: v3
+  workspace_dir:
+    type: string
+    default: .
+
+commands:
+  # To push Storybook to GitHub pages, you will need to setup a deploy key.
+  # set_deploy_key:
+  #   description: Sets the ssh key to allow pushing to GitHub branches
+  #   steps:
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - '51:54:...'
+
+  # Firebase config should you need it
+  # gcloud_auth:
+  #   description: "Authenticate the Google Cloud SDK"
+  #   parameters:
+  #     keyfile:
+  #       type: string
+  #       default: "GCP_DEV_KEY"
+  #   steps:
+  #     - run:
+  #         name: "Activate GCP Service Account"
+  #         command: |
+  #           # https://github.com/firebase/firebase-tools/issues/825
+  #           # https://developers.google.com/accounts/docs/application-default-credentials
+  #           echo ${<< parameters.keyfile >>} | base64 -d > ${HOME}/gcloud-service-key.json
+  #           echo 'export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/gcloud-service-key.json"' >> $BASH_ENV
+
+  install_dependencies:
+    description: 'Install dependencies with caching.'
+    steps:
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # https://circleci.com/docs/2.0/caching/#yarn-node
+            - << pipeline.parameters.cache_id >>-<< pipeline.parameters.project_name >>-{{ checksum "./react-frontend/yarn.lock" }}-{{ checksum ".nvmrc" }}
+            - << pipeline.parameters.cache_id >>-<< pipeline.parameters.project_name >>-
+      - run:
+          name: 'Install Dependencies'
+          command: |
+            cd ./react-frontend
+            yarn install
+      # Save to cache for faster installs next build.
+      - save_cache:
+          key: << pipeline.parameters.cache_id >>-<< pipeline.parameters.project_name >>-{{ checksum "./react-frontend/yarn.lock" }}-{{ checksum ".nvmrc" }}
+          paths:
+            - ~/.cache/yarn
+            - ~/.nvm
+            - ./node_modules
+            - ./react-frontend/node_modules
+      # Persist the specified paths into the workspace for use in downstream job.
+      # This seems to be faster than running a checkout, cache restore and install.
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: << pipeline.parameters.workspace_dir >>
+          # Must be relative path from root
+          paths:
+            # Store the files necessary to test and build this package.
+            - << pipeline.parameters.workspace_dir >>
+
+  save_logs:
+    description: 'Save logs.'
+    steps:
+      - store_artifacts:
+          path: ~/.npm/_logs
+          destination: npm-logs
+
+jobs:
+  # You can call commands from the monorepo root .circleci/config.yml like this:
+  # module-a-build:
+  #   docker:
+  #     - image: alpine
+  #   steps:
+  #     # This is a job defined in the monorepo root config.yml
+  #     - common-say-hello:
+  #         to: A
+  #     - run: echo 'Hello world from module A! :3'
+
+  install_dependencies:
+    executor: node
+    steps:
+      - checkout
+      - install_dependencies
+      - save_logs
+
+  test:
+    executor: node
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: << pipeline.parameters.workspace_dir >>
+      - run:
+          name: 'Run Tests'
+          command: |
+            cd ./react-frontend
+            # Get the list of tests for this instance in the parallel test run.
+            TEST_LIST=$(circleci tests glob "src/**/*.test.*" | circleci tests split --split-by=timings)
+            yarn test-ci $TEST_LIST
+            # Rename the output coverage json file so we can merge all output
+            # together in the check_coverage job.
+            mv ./reports/coverage/coverage-final.json ./reports/coverage/coverage.$CIRCLE_NODE_INDEX.json
+      - persist_to_workspace:
+          root: << pipeline.parameters.workspace_dir >>
+          paths:
+            - react-frontend/reports/coverage
+
+  # Merge the coverage results from the parallel test runs in the `test` job
+  # into a combined coverage report and then generate an HTML representation
+  # of the coverage report for browsing through the Artifacts tab on CircleCI.
+  test_coverage:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: << pipeline.parameters.workspace_dir >>
+      - run:
+          name: 'Merge Coverage Reports'
+          command: |
+            cd ./react-frontend
+            # Merge the results from our parallel test runs into a single
+            # coverage report.
+            yarn nyc merge reports/coverage reports/coverage/coverage-final.json
+      - run:
+          name: 'Check Coverage Thresholds'
+          command: |
+            cd ./react-frontend
+            # Determine if our coverage meets the threshold.
+            yarn nyc check-coverage --temp-dir reports/coverage
+      - run:
+          name: 'Generate HTML Coverage Report'
+          command: |
+            cd ./react-frontend
+            echo "Test Coverage check did not pass!"
+            echo "Building coverage analysis to help you debug test coverage."
+            # Generate an HTML report from our merged coverage report.
+            yarn nyc report -t reports/coverage --report-dir reports/coverage/html --reporter=html
+            # Rename the coverage file so it's easier to find
+            mv reports/coverage/html/index.html reports/coverage/html/_COVERAGE_REPORT.html
+            echo "Test Coverage report is now available in the Artifacts tab of this job."
+          when: on_fail
+      - store_artifacts:
+          path: react-frontend/reports/coverage/html
+          destination: .
+
+  build:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: << pipeline.parameters.workspace_dir >>
+      - run:
+          name: 'Lint Code'
+          command: |
+            cd ./react-frontend
+            yarn lint-ci
+      - run:
+          name: 'Build'
+          command: |
+            cd ./react-frontend
+            yarn build
+      - run:
+          name: 'Check Bundlesize'
+          command: |
+            cd ./react-frontend
+            yarn bundlesize
+      - run:
+          name: 'Create Bundle Analysis'
+          command: |
+            cd ./react-frontend
+            echo "Bundlesize check did not pass!"
+            echo "Building bundlesize analysis to help you debug your bundlesize."
+            yarn analyze-ci
+            echo "Bundlesize analysis is now available in the Artifacts tab of this job."
+          when: on_fail
+      - store_artifacts:
+          path: react-frontend/reports/analysis
+          destination: .
+
+  build_storybook:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: << pipeline.parameters.workspace_dir >>
+      - run:
+          name: 'Build Storybook'
+          command: |
+            cd ./react-frontend
+            yarn build-storybook
+      - persist_to_workspace:
+          root: << pipeline.parameters.workspace_dir >>
+          paths:
+            # Add the storybook build output for use by downstream jobs.
+            - react-frontend/storybook-static
+
+  # deploy_storybook:
+  #   executor: node
+  #   steps:
+  #     - attach_workspace:
+  #         at: << pipeline.parameters.workspace_dir >>
+  #     - set_deploy_key
+  #     - run:
+  #         name: 'Ensure Correct Node Path'
+  #         command: npm config set scripts-prepend-node-path auto
+  #     - run: |
+  #         cd ./react-frontend
+  #         yarn deploy-storybook-ci
+
+workflows:
+  version: 2
+  # You can call common jobs from the monorepo root config.yml like this:
+  # module-a-workflow:
+  #   jobs:
+  #     - common-pre
+  #     - module-a-build:
+  #         requires:
+  #           - common-pre
+  #     - module-a-hello-build/hello-build:
+  #         requires:
+  #           - common-pre
+
+  test_deploy:
+    jobs:
+      - install_dependencies
+      - test:
+          requires:
+            - install_dependencies
+          filters:
+            branches:
+              ignore: gh-pages
+            # https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
+            tags:
+              only: /.*/
+
+      - test_coverage:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: gh-pages
+            tags:
+              only: /.*/
+
+      # Eusure the app builds correctly
+      - build:
+          requires:
+            - install_dependencies
+          filters:
+            branches:
+              ignore: gh-pages
+            # https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
+            tags:
+              only: /.*/
+
+      # Eusure our storybook builds correctly
+      - build_storybook:
+          requires:
+            - install_dependencies
+          filters:
+            branches:
+              ignore: gh-pages
+            # https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
+            tags:
+              only: /.*/
+

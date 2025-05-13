@@ -1,0 +1,17 @@
+/* RetryToast */
+@import "theme";
+
+// .RetryToast { }
+
+.message {
+  margin-bottom: size(m);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+
+  &:not(:last-child) {
+    margin-right: size(s);
+  }
+}

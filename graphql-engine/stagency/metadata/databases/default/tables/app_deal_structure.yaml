@@ -1,0 +1,7 @@
+table:
+  schema: app
+  name: deal_structure
+object_relationships:
+  - name: dealStructureTypeByDealStructureType
+    using:
+      foreign_key_constraint_on: deal_structure_type

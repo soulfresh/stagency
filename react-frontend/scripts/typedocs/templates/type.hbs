@@ -1,0 +1,9 @@
+{{#if name~}}
+`{{name}}`
+{{~else}}
+{{#if (eq type 'reflection')}}
+{{#if (with 'declaration.signatures')}}
+{{> callback (with 'declaration.signatures[0]') ~}}
+{{/if}}
+{{/if}}
+{{/if}}

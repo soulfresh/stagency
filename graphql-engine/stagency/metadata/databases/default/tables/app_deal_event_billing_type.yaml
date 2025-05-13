@@ -1,0 +1,11 @@
+table:
+  schema: app
+  name: deal_event_billing_type
+array_relationships:
+  - name: deals
+    using:
+      foreign_key_constraint_on:
+        column: event_billing_type
+        table:
+          schema: app
+          name: deal

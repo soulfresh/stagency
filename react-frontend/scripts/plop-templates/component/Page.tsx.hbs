@@ -1,0 +1,41 @@
+import React from 'react';
+
+import { combineClasses } from '@thesoulfresh/utils';
+
+import styles from './{{pascalCase name}}.module.scss';
+
+export interface {{pascalCase name}}Props extends React.HTMLProps<HTMLDivElement> {
+}
+
+
+/**
+ * `<{{pascalCase name}}>`
+ */
+export function {{pascalCase name}}({
+  className,
+  ...rest
+  }: {{pascalCase name}}Props) {
+  return (
+    <div data-testid="{{pascalCase name}}"
+      className={combineClasses(styles.{{pascalCase name}}, className)}
+      {...rest}
+    >
+    </div>
+  );
+}
+
+/**
+ * `<{{pascalCase name}}Connected>` connects the {{pascalCase name}}
+ * component with the rest of the app (ie. routing, services, store, etc.).
+ */
+// eslint-disable-next-line no-empty-pattern
+export function {{pascalCase name}}Connected({
+  // history,
+  // location,
+  // match,
+}) {
+  return (
+    <{{pascalCase name}}
+    />
+  );
+}

@@ -1,0 +1,32 @@
+import { Title, Subtitle, Description, Primary, ArgsTable, Canvas, Story, Stories } from '@storybook/addon-docs';
+
+<Title />
+<Subtitle />
+<Description />
+<Primary />
+<ArgsTable />
+
+### Customized Header
+
+It's possible to customize the next and previous buttons in the header
+by passing the `renderNext` and `renderPrevious` props.
+
+In the following example, the next and previous areas have been customized to
+provide cancel and save functions. In order to navigate through the flow, next
+and previous buttons are placed inside the children render prop. Those buttons
+call the `onNext` and `onPrevious` props received by children to move through
+the flow. If you pass data to those callbacks, it will be collected and passed
+through to your children prop on the next render.
+
+<Canvas>
+  <Story id="components-progress-multistepflow--custom-header" />
+</Canvas>
+
+### Controlled Component
+
+You can use `MultistepFlow` as a controlled component by passing
+the `index` and `setIndex` props.
+
+<Canvas>
+  <Story id="components-progress-multistepflow--controlled" />
+</Canvas>

@@ -1,0 +1,24 @@
+/* AreYouSure */
+@import "theme";
+
+.AreYouSure {
+  position: relative;
+}
+
+.warningText {
+  margin-bottom: size(m);
+  max-width: 200px;
+}
+
+.deleteAction {
+  width: 100%;
+}
+
+.close {
+  top: 0;
+  right: 0;
+  position: absolute;
+  transform: translate(#{size(xs)}, -#{size(xs)});
+  color: foreground-dark(disabled-text);
+}
+

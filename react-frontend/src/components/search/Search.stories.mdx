@@ -1,0 +1,124 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { Example } from '@thesoulfresh/sass-theming';
+
+import { artists } from '~/test';
+import { Search, SearchResult } from './Search.jsx';
+
+<Meta title="Components/search/Search" />
+
+# Search
+
+<Description of={ Search } />
+
+<Canvas>
+  <Story name="Search">
+  <Example>
+    {() => {
+      const [results, setResults] = React.useState([]);
+      const onSearch = action('onSearch');
+      return (
+        <Search
+          placeholder="Search Artists"
+          results={results}
+          onSelect={action('onSelect')}
+          onSearch={term => {
+            onSearch(term);
+            if (term) {
+              setResults(
+                artists
+                  .filter(a => new RegExp(term, 'i').test(a.name))
+                  .map(a => a.name)
+              );
+            } else {
+              setResults([]);
+            }
+          }}
+        />
+      );
+    }}
+  </Example>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Search } />
+
+## Controlled
+
+To use as a controlled component, don't pass the results property.
+
+<Canvas>
+  <Story name="Controlled">
+  <Example>
+    {() => {
+      const onSearch = action('onSearch');
+      return (
+        <Search
+          placeholder="Search Artists"
+          onSelect={action('onSelect')}
+          onSearch={term => {
+            onSearch(term);
+            if (term) {
+              return artists
+                .filter(a => new RegExp(term, 'i').test(a.name))
+                .map(a => a.name);
+            } else {
+              return [];
+            }
+          }}
+        />
+      );
+    }}
+  </Example>
+  </Story>
+</Canvas>
+
+## Controlled Async
+
+You can return a `Promise` from your `onSearch` prop if your results
+will be returned asynchronously.
+
+<Canvas>
+  <Story name="Controlled Async">
+  <Example>
+    {() => {
+      const onSearch = action('onSearch');
+      return (
+        <Search
+          placeholder="Search Artists"
+          onSelect={action('onSelect')}
+          onSearch={term => new Promise((resolve) => {
+            onSearch(term);
+            setTimeout(() => {
+              if (term) {
+                resolve(
+                  artists
+                    .filter(a => new RegExp(term, 'i').test(a.name))
+                    .map(a => a.name)
+                );
+              } else {
+                resolve([]);
+              }
+            }, 1000);
+          })}
+        />
+      );
+    }}
+  </Example>
+  </Story>
+</Canvas>
+
+## SearcResult
+
+Use the `SearchResult` component to display a `<button>` element
+as your search result. Using this component will ensure all of our
+search results receive consistent styling. However, if you do
+not want to render `<button>` elements, you should not use this
+component.
+
+<Canvas>
+  <Story name="SearchResult">
+    <SearchResult>Search Result Button</SearchResult>
+  </Story>
+</Canvas>

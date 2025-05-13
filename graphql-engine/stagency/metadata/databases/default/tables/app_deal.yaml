@@ -1,0 +1,59 @@
+table:
+  schema: app
+  name: deal
+object_relationships:
+  - name: artist
+    using:
+      foreign_key_constraint_on: artist_id
+  - name: deal_event_billing_type
+    using:
+      foreign_key_constraint_on: event_billing_type
+  - name: deal_event_type
+    using:
+      foreign_key_constraint_on: event_type
+  - name: deal_status_type
+    using:
+      foreign_key_constraint_on: status_type
+array_relationships:
+  - name: deal_venues
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: deal_venue
+  - name: events
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: deal_event
+  - name: expenses
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: expense
+  - name: performance_schedules
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: performance_schedule
+  - name: show_schedules
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: show_schedule
+  - name: ticket_scalings
+    using:
+      foreign_key_constraint_on:
+        column: deal_id
+        table:
+          schema: app
+          name: ticket_scaling

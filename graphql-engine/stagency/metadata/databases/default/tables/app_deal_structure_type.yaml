@@ -1,0 +1,11 @@
+table:
+  schema: app
+  name: deal_structure_type
+array_relationships:
+  - name: deal_structures
+    using:
+      foreign_key_constraint_on:
+        column: deal_structure_type
+        table:
+          schema: app
+          name: deal_structure

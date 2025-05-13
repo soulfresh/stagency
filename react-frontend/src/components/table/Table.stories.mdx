@@ -1,0 +1,42 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Table } from './Table.jsx';
+
+<Meta title="Components/Table" />
+
+# Table
+
+<Description of={ Table } />
+
+<Canvas>
+  <Story name="Table">
+    <Table>
+      <thead>
+        <tr>
+          <th>Artist</th>
+          <th>Venues</th>
+          <th>Event Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lusine</td>
+          <td>The Fillmore</td>
+          <td>January</td>
+        </tr>
+        <tr>
+          <td>Lusine</td>
+          <td>The Fillmore</td>
+          <td>January</td>
+        </tr>
+        <tr>
+          <td>Lusine</td>
+          <td>The Fillmore</td>
+          <td>January</td>
+        </tr>
+      </tbody>
+    </Table>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Table } />

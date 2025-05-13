@@ -1,0 +1,166 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action as act } from '@storybook/addon-actions';
+
+import { SearchIcon } from '~/docs';
+import { ColumnOfItems, Example } from '@thesoulfresh/sass-theming';
+import { Action } from '../buttons';
+
+import { Input } from './Input.jsx';
+
+export const Row = ({children}) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'start',
+    }}
+  >
+    {children}
+  </div>
+)
+
+<Meta title="Basics/Inputs/Input" />
+
+# Input
+
+<Description of={ Input } />
+
+<Canvas>
+  <Story name="Input" decorators={[ColumnOfItems]}>
+    <Input placeholder="Placeholder text" onChange={act('onChange')} />
+    <Input tight defaultValue="I have a value!" onChange={act('onChange')}  />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Input } />
+
+## Icon
+
+You can show an icon on the left side of the input by passing the
+`icon` parameter.
+
+<Canvas>
+  <Story name="Icon">
+    <Input icon={<SearchIcon />} placeholder="I'm narrow" onChange={act('onChange')} tight />
+  </Story>
+</Canvas>
+
+## Narrow
+
+You can reduce the padding of the input by specifying the
+`narrow` prop.
+
+<Canvas>
+  <Story name="Narrow">
+    <Input narrow placeholder="I'm narrow" onChange={act('onChange')} />
+  </Story>
+</Canvas>
+
+## Boxy
+
+Similar to `Action` components, you can pass the `boxy` prop to
+remove the border radius from an input.
+
+<Canvas>
+  <Story name="Boxy">
+    <Input boxy placeholder="I'm boxy" onChange={act('onChange')} />
+  </Story>
+</Canvas>
+
+## Transparent
+
+For situations where you need to customize the styling of an input,
+you can provide the `transparent` prop which removes the borders
+and other stylistic flourishes. This can be useful if you need the
+styling to come from the input's parent component.
+
+<Canvas>
+  <Story name="Transparent">
+    <Input transparent placeholder="I'm transparent" onChange={act('onChange')} />
+  </Story>
+</Canvas>
+
+## Feel
+
+You can change the feel of an input by passing the `feel` prop similar
+to the `Action` component.
+
+<Canvas>
+  <Story name="Feel" decorators={[ColumnOfItems]}>
+    <>
+      <Input feel="primary" placeholder="Primary"  />
+      <Input feel="success" placeholder="Success"  />
+      <Input feel="error" placeholder="Error"  />
+      <Input feel="warn" placeholder="Warn"  />
+    </>
+  </Story>
+</Canvas>
+
+## Error
+
+When the field is invalid, you should pass the `error` prop.
+This is preferred over `feel="error"` as it also sets the `aria-invalid`
+attribute. If you pass a string as the error, it will be displayed
+under the input as the error message.
+
+<Canvas>
+  <Story name="Error" decorators={[ColumnOfItems]}>
+    <>
+      <Input error placeholder="Boolean Error Prop"  />
+      <Input error="No bueno!" placeholder="String Error Prop"  />
+    </>
+  </Story>
+</Canvas>
+
+## Clear
+You can show a "clear input" button on the right of the input by
+passing the `clearable` prop. Be aware that the `value` prop determines
+if the input is controlled or uncontrolled which impacts how the input
+gets cleared. If you don't pass a `value` or you only pass the `defaultValue`
+the input is uncontrolled and clearing works automatically. However,
+if you pass non-undefined data as `value`, the input becomes controlled
+and you must also pass the `onValueChange` prop which should update the value
+data.
+
+<Canvas>
+  <Story name="Clearable (controlled)">
+    <Example>
+      {() => {
+        const [value, setValue] = React.useState('Clear Me Out!');
+        return <Input clearable tight value={value} onValueChange={setValue} />;
+      }}
+    </Example>
+  </Story>
+</Canvas>
+
+The following example shows an **uncontrolled** clearable input.
+<Canvas>
+  <Story name="Clearable (uncontrolled)">
+    <Input clearable tight defaultValue="Clear Me!" placeholder="Type something" />
+  </Story>
+</Canvas>
+
+## Loader
+
+You can also show a loader in the input which is useful for
+asynchronous tasks like searching.
+
+<Canvas>
+  <Story name="Loader" decorators={[ColumnOfItems]}>
+    <>
+      <Input loading placeholder="Loading..." tight />
+    </>
+  </Story>
+</Canvas>
+
+## Alignment With Actions
+
+Inputs and Actions should line up nicely when positioned side-by-side.
+
+<Canvas>
+  <Story name="Actions Alignment">
+  <Row><Input placeholder="Input" style={{marginRight: 10}} /><Action>Button</Action></Row>
+    <Row><Input placeholder="Input" style={{marginRight: 10}} /><Action pill>Button</Action></Row>
+    <Row><Input placeholder="Input" style={{marginRight: 10}} /><Action placeholder="Placeholder Text..."></Action></Row>
+    <Row><Input narrow placeholder="Narrow Input" style={{marginRight: 10}} /><Action narrow>Narrow Button</Action></Row>
+  </Story>
+</Canvas>

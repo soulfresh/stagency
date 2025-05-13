@@ -1,0 +1,38 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { wrapWithAnalytics } from '~/test';
+import { Action } from '../buttons';
+import { Dropdown } from './Dropdown.jsx';
+
+export const moreSpace = {margin: '5px'};
+export const withAnalytics = c => wrapWithAnalytics(c());
+
+<Meta title="Components/Dropdown" />
+
+# Dropdown
+
+<Description of={ Dropdown } />
+
+<Canvas>
+  <Story name="Dropdown" decorators={[withAnalytics]}>
+    <Dropdown
+      content={(first, last) =>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div>My Menu</div>
+          <Action solid narrow ref={first} style={moreSpace}>Action 1</Action>
+          <Action solid narrow style={moreSpace}>Action 2</Action>
+          <Action solid narrow feel="primary" ref={last} style={moreSpace}>Action 3</Action>
+        </div>
+      }
+    >
+      <Action>Menu</Action>
+    </Dropdown>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Dropdown } />

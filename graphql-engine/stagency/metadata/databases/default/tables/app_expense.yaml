@@ -1,0 +1,10 @@
+table:
+  schema: app
+  name: expense
+object_relationships:
+  - name: deal
+    using:
+      foreign_key_constraint_on: deal_id
+  - name: type
+    using:
+      foreign_key_constraint_on: expense_type

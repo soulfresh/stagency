@@ -1,0 +1,8 @@
+{{#if (hasDocs this)}}
+{{pad level '  '}}- {{#raw-helper}}<a href="#{{#lowercase}}{{name}}{{/lowercase}}">{{name}}</a>{{/raw-helper}}
+{{else}}
+{{pad level '  '}}- {{#if name}}{{name}}{{else}}root{{/if}}
+{{/if}}
+{{#each children}}
+{{>toc-item level=(add ../level 1)}}
+{{/each}}

@@ -1,0 +1,127 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Description,
+} from "@storybook/addon-docs";
+
+import { RowOfItems, ColumnOfItems } from "@thesoulfresh/sass-theming";
+
+import {
+  CloseAction,
+  NextAction,
+  PreviousAction,
+  MoreAction,
+  AddAction,
+} from "./IconActions.jsx";
+
+export function IconExample({ children, label }) {
+  return (
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: 200,
+      }}
+    >
+      <span
+        style={{
+          fontWeight: "bold",
+          fontFamily: "monospace",
+        }}
+      >
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+<Meta title="Basics/Icon Actions" />
+
+# Icon Action
+
+The following icon buttons are available in this project.
+They are all `<Action>` components, so you can pass any Action
+prop to these icon buttons.
+
+<Canvas>
+  <Story name="Icon Actions" decorators={[ColumnOfItems]}>
+    <IconExample label="CloseAction">
+      <CloseAction />
+    </IconExample>
+    <IconExample label="NextAction">
+      <NextAction />
+    </IconExample>
+    <IconExample label="PreviousAction">
+      <PreviousAction />
+    </IconExample>
+    <IconExample label="MoreAction">
+      <MoreAction />
+    </IconExample>
+    <IconExample label="AddAction">
+      <AddAction />
+    </IconExample>
+  </Story>
+</Canvas>
+
+## With Children
+
+Any children you pass will be placed next to the icon.
+You can switch the orientation of the icon and children using
+the direction prop.
+
+<Canvas>
+  <Story name="With Children">
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <CloseAction>Direction Right</CloseAction>
+      <span> | </span>
+      <CloseAction direction="left">Direction Left</CloseAction>
+    </div>
+  </Story>
+</Canvas>
+
+## Feel Variations
+
+The `feel` prop works the same as other actions.
+
+<Canvas>
+  <Story name="Feel" decorators={[ColumnOfItems]}>
+    <IconExample label="primary">
+      <CloseAction feel="primary" />
+    </IconExample>
+    <IconExample label="secondary">
+      <CloseAction feel="secondary" />
+    </IconExample>
+    <IconExample label="success">
+      <CloseAction feel="success" />
+    </IconExample>
+    <IconExample label="warn">
+      <CloseAction feel="warn" />
+    </IconExample>
+    <IconExample label="error">
+      <CloseAction feel="error" />
+    </IconExample>
+  </Story>
+</Canvas>
+
+## Sizing
+
+To size your icons, choose one of the pre-made `size` props
+"s", "m" or "l".
+
+<Canvas>
+  <Story name="Sizes" decorators={[ColumnOfItems]}>
+    <IconExample label="S">
+      <CloseAction size="s" />
+    </IconExample>
+    <IconExample label="M">
+      <CloseAction />
+    </IconExample>
+    <IconExample label="L">
+      <CloseAction size="l" />
+    </IconExample>
+  </Story>
+</Canvas>

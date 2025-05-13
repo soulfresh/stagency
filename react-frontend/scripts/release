@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+set -e
+
+# Using a script allows us to call release-it from yarn
+release-it

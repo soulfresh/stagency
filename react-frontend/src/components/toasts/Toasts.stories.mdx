@@ -1,0 +1,90 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { Centered } from '@thesoulfresh/sass-theming';
+
+import { Action } from '../buttons';
+import { TitleS } from '../text';
+import { toast, ToastProvider } from './Toasts';
+
+<Meta
+  title="Components/Toasts"
+  decorators={[
+    cb => <>{cb()}<ToastProvider /></>
+  ]}
+/>
+
+# Toasts
+
+To present a toast, simply import the toast service and call one of the toast
+functions (`success`, `warn`, `error`) with the message you want to present.
+
+```jsx
+import { toast } from '~/components';
+
+...
+
+<Action onClick={() => toast.error('Your error message')}>Error</Action>
+```
+
+### Options
+
+The following options can be passed as a second parameter to the toast
+functions:
+
+| prop | type |
+| ---- | ---- |
+| className | string |
+| showIcon | boolean |
+| duration | 's', 'm', 'l', Infinity, number |
+
+<Canvas>
+  <Story name="Toasts">
+    <Action onClick={() => toast.success('You did it!')}>Success</Action>
+    <Action onClick={() => toast.warn('You better watch your self!')}>Warn</Action>
+    <Action onClick={() => toast.error('Gah! Bad stuff ☠️')}>Error</Action>
+  </Story>
+</Canvas>
+
+## Custom Content
+
+The message parameter can take either text or custom JSX content.
+If you need to programatically dismiss the toast, you can
+pass a function of type `(dismiss: () => void) => React.ReactNode`.
+
+<Canvas>
+  <Story name="Custom Content">
+    <Action
+      onClick={() => {
+        toast.error(
+          (dismiss) => (
+            <div>
+              <TitleS>Failed to save</TitleS>
+              <div style={{marginBottom: 20}}>
+                 Would you like to try again?
+              </div>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <Action
+                  feel="error"
+                  solid
+                  onClick={() => dismiss()}
+                  style={{marginRight: 10}}
+                >
+                  Yes
+                </Action>
+                <Action
+                  feel="secondary"
+                  solid
+                  onClick={() => dismiss()}
+                >
+                  No
+                </Action>
+              </div>
+            </div>
+          ),
+          {showIcon: false, duration: Infinity}
+        )
+      }}
+    >
+      Custom Content
+    </Action>
+  </Story>
+</Canvas>

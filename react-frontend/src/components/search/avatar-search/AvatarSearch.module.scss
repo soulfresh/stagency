@@ -1,0 +1,21 @@
+/* AvatarSearch */
+@import "theme";
+
+// .AvatarSearch { }
+
+.Avatar {
+  display: flex;
+}
+
+.Modal {
+  @include breakpoint-up(s) {
+    max-width: 400px;
+    max-height: 50vh;
+    margin: 10% auto;
+  }
+
+  :global(.search-input) {
+    // max-width: calc(100% - #{size(xl)});
+    margin-top: size(s);
+  }
+}

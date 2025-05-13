@@ -1,0 +1,7 @@
+table:
+  schema: app
+  name: performance_schedule
+object_relationships:
+  - name: deal
+    using:
+      foreign_key_constraint_on: deal_id

@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { generate } from '~/services/mocks';
+import { listOf, EXPENSE_TYPES } from '~/test';
+import { Expenses } from './Expenses.jsx';
+
+<Meta title="Pages/Expenses" />
+
+# Expenses
+
+<Description of={ Expenses } />
+
+<Canvas>
+  <Story name="Expenses">
+    <Expenses
+      deal={generate.app_deal({expenseCount: 5})}
+      config={{EXPENSE_TYPES}}
+      style={{
+        height: '50vh',
+      }}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Expenses } />

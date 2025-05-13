@@ -1,0 +1,509 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action as act } from '@storybook/addon-actions';
+import { MemoryRouter } from 'react-router-dom';
+
+import {
+  ColumnOfItems,
+  RowOfItems,
+  Column,
+  Row,
+} from '@thesoulfresh/sass-theming';
+
+import { wrapWithAnalytics } from '~/test/render';
+
+import { UnstyledButton, Action } from './Action.jsx';
+import { CloseAction } from './IconActions.jsx';
+
+import { ExampleIcon } from '~/docs';
+
+export const sizes = ['s', undefined, 'l'];
+export const feels = [undefined, 'primary', 'success', 'warn', 'error'];
+export const variations = [undefined, 'solid'];
+export const allButtonVariations = variations.flatMap(v => feels.map(f => ({feel: f, solid: !!v})));
+
+export const moreSpace = {margin: '5px'};
+
+export const Routed = c => <MemoryRouter>{ c() }</MemoryRouter>;
+export const Analytics = c => wrapWithAnalytics(c());
+
+<Meta title="Basics/Actions" />
+
+# Action
+
+<Description of={Action} />
+
+<Canvas>
+  <Story name="Default Actions" decorators={[Routed]}>
+    <Action style={moreSpace} to="#">Standard Link</Action>
+    <Action style={moreSpace} to="#" feel="primary">Primary Link</Action>
+    <Action style={moreSpace} narrow>Narrow Button</Action>
+    <Action style={moreSpace} feel="primary">Primary Button</Action>
+    <Action style={moreSpace} feel="primary" solid>Primary Solid Button</Action>
+    <Action style={moreSpace} pill>Pill Button</Action>
+    <Action style={moreSpace} pill solid>Solid Pill Button</Action>
+    <Action style={moreSpace} transparent feel="primary">Transparent Button</Action>
+  </Story>
+</Canvas>
+
+<ArgsTable of={Action} />
+
+## Button Feel
+
+You can make either `button` or `a` elements feel like buttons.
+In this example, the left column contains `<button>` elements and the
+right column contains `<a>` elements.
+
+<Canvas>
+  <Story name="Button Feel" decorators={[Routed, RowOfItems]}>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Button {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          to="#"
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+## Link Feel
+
+Inversely, you can make either `button` or `a` elements feel like links.
+
+<Canvas>
+  <Story name="Link Feel" decorators={[Routed, RowOfItems]}>
+    <Column>
+      {feels.map((feel, i) =>
+        <Action
+          feel={feel}
+          display="link"
+          key={i}
+          style={moreSpace}
+        >
+          Button {feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {feels.map((feel, i) =>
+        <Action
+          to="#"
+          feel={feel}
+          display="link"
+          key={i}
+          style={moreSpace}
+        >
+          Link {feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+## Size Variations
+
+You can use the `size` prop to change the size of your button.
+If you don't pass a size, then the medium size will be rendered.
+
+<Canvas>
+  <Story name="Size Variations" decorators={[Routed, RowOfItems]}>
+    {sizes.map((s, i) =>
+      <Column key={i}>
+        <Action
+          to="#"
+          display="link"
+          size={s}
+          style={moreSpace}
+        >
+          {s ? s.toUpperCase() : ''} Link
+        </Action>
+        <Action
+          size={s}
+          style={moreSpace}
+        >
+          {s ? s.toUpperCase() : ''} Button
+        </Action>
+        <Action
+          solid
+          size={s}
+          style={moreSpace}
+        >
+          {s ? s.toUpperCase() : ''} Solid Button
+        </Action>
+      </Column>
+    )}
+  </Story>
+</Canvas>
+
+## Narrow Variation
+
+In addition to sizes, buttons have a narrow variation which
+shrinks the vertical padding inside the button.
+
+<Canvas>
+  <Story name="Narrow Variations" decorators={[Routed, RowOfItems]}>
+    <Column>
+      <Action
+        narrow
+        style={moreSpace}
+      >
+        Button
+      </Action>
+      <Action
+        narrow
+        solid
+        feel="primary"
+        style={moreSpace}
+      >
+        Solid Button
+      </Action>
+      <Action
+        narrow
+        pill
+        style={moreSpace}
+      >
+        Pill Button
+      </Action>
+    </Column>
+  </Story>
+</Canvas>
+
+## Pill Variation
+
+Use the `pill` prop to acheive a pill shaped button.
+
+<Canvas>
+  <Story name="Pill Buttons" decorators={[Routed, RowOfItems]}>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          pill
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Pill Button {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          to="#"
+          pill
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Pill Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+## Transparent Buttons
+
+You can pass the `transparent` prop to remove the background and border
+colors from a button. This is most useful for icon only buttons that should
+feel like they fit their surroundings.
+
+<Canvas>
+  <Story name="Transparent Buttons" decorators={[Routed, RowOfItems]}>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          transparent
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Button {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          to="#"
+          transparent
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          transparent
+          pill
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Pill Button {variation.feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+## Boxy Buttons
+
+Sometimes you need a button to fill it's parent container and the rounded corners
+break that "filling" illusion. You can easily remove the rounded
+corners by passing the `boxy` prop.
+
+> NOTE: This property has lower priority than other conflicting properties like
+> `pill`. In those cases, you should remove the conflicting property if you want
+> a boxy button.
+
+<Canvas>
+  <Story name="Boxy Buttons" decorators={[Routed, RowOfItems]}>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          boxy
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Button {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          to="#"
+          boxy
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+## Placeholder Text
+For buttons with dynamic text, it's possible to use the `placeholder` prop to specify
+default text for the case when the button text is not set. This is currently used
+in places like the artist search to make the artist search button match the styling
+of input elements. Below are examples of the button variations with and without
+the placeholder text.
+
+<Canvas>
+  <Story name="Placeholder Text"
+    decorators={[
+      c => <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center'}}>{c()}</div>
+    ]}
+  >
+    <Action style={moreSpace} narrow>Narrow Button</Action>
+    <Action style={moreSpace} narrow placeholder="Narrow Placeholder..."></Action>
+    <Action style={moreSpace} feel="primary">Primary Button</Action>
+    <Action style={moreSpace} feel="primary" placeholder="With Placeholder..."></Action>
+    <Action style={moreSpace} pill>Pill Button</Action>
+    <Action style={moreSpace} pill placeholder="Pill Placeholder..."></Action>
+  </Story>
+</Canvas>
+
+## With Icons
+
+Coming Soon...
+
+## With Images
+
+Coming Soon...
+
+## Unrouted Links
+
+By default, all links (ie. Actions without the `button` prop) are
+routed by React Router. If you want to link externally from the site,
+you can provide the `unrouted` prop. Or you can provide the `blank` prop
+which will be considered unrouted and will open the link in a
+separate browser window/tab. Or you can pass an in page anchor link
+(ie. hash link like `#some-id`) which will also be treated like a standard
+link in order to scroll the page to that location.
+
+The following example shows all of the button variations with unrouted
+`<a>` elements to ensure they look identical to routed links.
+
+<Canvas>
+  <Story name="Routed Links" decorators={[RowOfItems]}>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          unrouted
+          feel={variation.feel}
+          solid={variation.solid}
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          unrouted
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          pill
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          unrouted
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Pill Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          transparent
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          unrouted
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Transparent Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+    <Column>
+      {allButtonVariations.map((variation, i) =>
+        <Action
+          boxy
+          feel={variation.feel}
+          solid={variation.solid}
+          display="button"
+          unrouted
+          key={i}
+          style={moreSpace}
+        >
+          {variation.solid ? 'Solid' : ''} Transparent Link {variation.feel}
+        </Action>
+      )}
+    </Column>
+  </Story>
+</Canvas>
+
+
+## Unstyled
+
+Sometimes you need to wrap an arbitrary element in a link or button
+without apply any styling to the wrapped element. In those cases,
+pass the `unstyled` prop.
+
+<Canvas>
+  <Story name="Unstyled Buttons" decorators={[ColumnOfItems]}>
+    <Action unstyled unrouted>
+      <p>
+        This paragraph text is wrapped in an anchor tag. Could you tell?
+      </p>
+    </Action>
+  </Story>
+</Canvas>
+
+## Analytics
+
+Additionally, all `<Action>` can provide analytics tracking.
+Page tracking is automatically taken care of by the application
+router and external links are automatically tracked by link actions.
+
+You can provide user event tracking for a link or button by
+providing the `category`, `action` and `label` props. All three
+props are required for event tracking to occur.
+
+- `category` This should be one of the `ANALYTICS_CATEGORIES` constants
+  from the `Analytics` service. This allows us to keep a consistent grouping
+  of top level user event categories.
+- `action` This should be a string describing the event in general terms.
+  For example, a good video play button action would be "Play Button".
+- `label` This should be a string describing the event in more detail
+  such as the specific state/context of the action.
+  For example, the same video play button would use either "Play" or
+  "Pause" depending on the current state of the video. Or
+  you might use this to disambiguate the action from other
+  similar actions elsewhere on the page or in the app.
+
+For more details, see
+https://github.com/react-ga/react-ga#reactgaeventargs
+
+<Canvas>
+  <Story name="Analytics" decorators={[Analytics]}>
+    <Action
+      style={moreSpace}
+      unrouted
+      category="test"
+      action="foo"
+      label="bar"
+    >
+      Link Tracking
+    </Action>
+    <Action
+      style={moreSpace}
+      category="test"
+      action="foo"
+      label="bar"
+    >
+      Event Tracking
+    </Action>
+  </Story>
+</Canvas>

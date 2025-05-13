@@ -1,0 +1,9 @@
+/* Dropdown */
+@import "theme";
+
+.Dropdown {
+  :global(.content) {
+    padding: size(s) size(s);
+  }
+}
+

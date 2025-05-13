@@ -1,0 +1,58 @@
+/* Modal */
+@import "theme";
+
+$overlay-speed: speed(s);
+$content-speed: speed(m);
+
+// Expose to JS
+@value overlaySpeed: #{$overlay-speed};
+@value contentSpeed: #{$content-speed};
+
+.Modal {
+  position: absolute;
+  overflow: auto;
+  inset: 0;
+  background-color: background();
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95) translateY(10%);
+  transition: transform $content-speed ease(out-hard) speed(xs);
+
+  @include breakpoint-up(s) {
+    inset: size(l);
+    border-radius: radius(l);
+  }
+}
+
+.ModalOpen {
+  transform: scale(1);
+}
+
+.ModalClosing {
+  transform: scale(0.95) translateY(10%);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: background(overlay);
+  opacity: 0;
+  transition: opacity $overlay-speed linear;
+}
+
+.overlayOpen {
+  opacity: 1;
+}
+
+.overlayClosing {
+  opacity: 0;
+}
+
+.close {
+  align-self: end;
+  margin: size(s);
+  background-color: background(fade);
+  position: absolute;
+  z-index: layer(floating);
+}
+

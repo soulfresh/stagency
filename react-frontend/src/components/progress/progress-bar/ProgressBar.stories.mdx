@@ -1,0 +1,56 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Example } from '@thesoulfresh/sass-theming';
+import { ProgressBar } from './ProgressBar.jsx';
+
+export const decorator = s => (
+  <div
+    style={{
+      padding: 20,
+    }}
+  >
+    {s()}
+  </div>
+);
+
+<Meta title="Components/Progress/ProgressBar" />
+
+# ProgressBar
+
+<Description of={ ProgressBar } />
+
+<Canvas>
+  <Story name="ProgressBar">
+    <ProgressBar progress={0.6} aria-label="Create Deal Progress" />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ ProgressBar } />
+
+## Animated Example
+
+The progress bar will automatically transition it's width whenever
+the progress value changes.
+
+<Canvas>
+  <Story name="Animated Example">
+    <Example>
+    {() => {
+      const [progress, setProgress] = React.useState(0);
+      React.useEffect(() => {
+        setTimeout(() => {
+          let next = progress + 0.1;
+          if (next > 1) next = 0;
+          setProgress(next);
+        }, 500)
+      });
+      return (
+        <ProgressBar
+          progress={progress}
+          aria-label="Create Deal Progress"
+        />
+      );
+    }}
+    </Example>
+  </Story>
+</Canvas>

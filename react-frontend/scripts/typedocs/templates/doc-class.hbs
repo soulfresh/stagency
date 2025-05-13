@@ -1,0 +1,22 @@
+## {{name}} Class
+
+__Extends__
+{{#if extendedTypes}}
+{{#each extendedTypes}}`{{name}}`{{#unless @last}} : {{/unless}}{{/each}}
+{{/if}}
+
+{{#if comment}}{{> description}}{{/if}}
+<br/>
+
+{{#if children}}
+{{#each children}}
+{{#if (eq kindString 'Constructor')}}
+{{> doc-constructor className=../name}}
+{{else}}
+{{> doc-method className=../name}}
+{{/if}}
+{{/each}}
+{{else}}
+{{#if sources}}{{> files}}{{/if}}
+{{/if}}
+<br/>

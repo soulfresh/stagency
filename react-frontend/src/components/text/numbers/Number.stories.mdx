@@ -1,0 +1,41 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { CapsLabel } from '../Titles.jsx';
+import { NumberText } from './NumberText.jsx';
+import { CurrencyText } from './CurrencyText.jsx';
+
+export const moreSpace = {marginTop: '20px'};
+
+<Meta title="Basics/Text/Numbers" />
+
+# Number Text
+
+<Description of={NumberText} />
+
+<Canvas>
+  <Story name="Number Text">
+    <CapsLabel>User's Locale</CapsLabel>
+    <NumberText>114432234.23</NumberText>
+    <CapsLabel style={moreSpace}>India</CapsLabel>
+    <NumberText locale="hi-IN">114432234.23</NumberText>
+  </Story>
+</Canvas>
+
+<ArgsTable of={NumberText} />
+
+# Currency Text
+
+<Description of={CurrencyText} />
+
+<Canvas>
+  <Story name="Currency Text">
+    <CapsLabel>User's Locale + USD</CapsLabel>
+    <CurrencyText>114432234.33</CurrencyText>
+    <CapsLabel style={moreSpace}>Germany + Euros</CapsLabel>
+    <CurrencyText locale="de-DE" currency="EUR">114432234.33</CurrencyText>
+    <CapsLabel style={moreSpace}>India + Rupees</CapsLabel>
+    <CurrencyText locale="hi-IN" currency="INR">114432234.33</CurrencyText>
+  </Story>
+</Canvas>
+
+<ArgsTable of={CurrencyText} />

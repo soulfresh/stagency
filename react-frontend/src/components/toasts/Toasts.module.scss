@@ -1,0 +1,40 @@
+/* Toasts */
+@import "theme";
+
+.Toast {
+  position: relative;
+  border-radius: radius(s);
+  padding: size(s) size(m) size(s) size(s);
+}
+
+// .content {
+//   padding-right: size
+// }
+
+.close {
+  color: foreground(faded-text);
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}
+
+.Success {
+  background-color: color(success, 200);
+}
+
+.Warn {
+  background-color: color(warn, 200);
+}
+
+.Error {
+  background-color: color(error, 200);
+}
+
+.warnIcon {
+  min-width: size(m);
+  min-height: size(m);
+  max-width: size(m);
+  max-height: size(m);
+  fill: color(warn);
+  color: color(warn, 700);
+}

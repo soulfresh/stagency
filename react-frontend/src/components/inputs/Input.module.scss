@@ -1,0 +1,8 @@
+/* Input */
+@import "theme";
+
+.Input {
+  @include input;
+  display: block;
+}
+

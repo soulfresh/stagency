@@ -1,0 +1,7 @@
+/* PercentInput */
+@import "theme";
+
+.PercentInput {
+  @include input;
+  width: 100%;
+}

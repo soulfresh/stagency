@@ -1,0 +1,81 @@
+/* InputDecorator */
+@import "theme";
+
+.InputDecorator {
+  display: inline-block;
+  position: relative;
+
+  &.hasError {
+    .message {
+      opacity: 1;
+    }
+  }
+
+  &:not(.tight) {
+    .message {
+      padding: size(xxs) 0 size(xs) size(s);
+    }
+  }
+
+  &.focused {
+    .icon,
+    .loader {
+      color: foreground(focus) !important;
+    }
+  }
+}
+
+.Input {
+  width: 100%;
+}
+
+.clear,
+.loader,
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width:  16px;
+  height: 16px;
+  transition: color speed(s) linear;
+}
+
+.clear {
+  opacity: 0;
+  right: size(xs);
+  transition: opacity speed(s) linear;
+  pointer-events: none;
+
+  &.hasValue {
+    opacity: 1;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+}
+
+.loader,
+.icon {
+  left: size(xs);
+}
+
+.icon {
+  color: foreground(disabled-text);
+}
+
+.inputWrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.message {
+  color: color(error);
+  font-weight: font-weight(medium);
+  font-size: font-size(s);
+  display: block;
+
+  // Hide the message until an error occurs.
+  // This way the form fields don't move around.
+  opacity: 0;
+  transition: opacity speed(m) linear;
+}

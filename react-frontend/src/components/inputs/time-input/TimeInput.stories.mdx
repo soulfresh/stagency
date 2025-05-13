@@ -1,0 +1,73 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Example } from '@thesoulfresh/sass-theming';
+import { TimeInput } from './TimeInput.jsx';
+
+<Meta
+  title="Basics/Inputs/Time Input"
+  decorators={[
+    cb => (
+      <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        {cb()}
+      </div>
+    )
+  ]}
+/>
+
+# TimeInput
+
+<Description of={ TimeInput } />
+
+<Canvas>
+  <Story name="TimeInput">
+    <TimeInput placeholder="Pick A Time"/>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ TimeInput } />
+
+## Duration
+
+Allow users to select a time duration by passing the `duration` prop.
+
+<Canvas>
+  <Story name="Duration">
+    <TimeInput duration />
+  </Story>
+</Canvas>
+
+## With Seconds
+
+You can allow users to specify times and durations including seconds by passing
+the `withSeconds` prop.
+
+<Canvas>
+  <Story name="With Seconds">
+    <TimeInput withSeconds />
+    <TimeInput duration withSeconds />
+  </Story>
+</Canvas>
+
+## Controlled
+
+You can use `TimeInput` as a controlled component by passing the `value` and
+`onChange` props. You can also control the open state by passing the `isOpen`,
+`onOpen` and `onClose` props.
+
+<Canvas>
+  <Story name="Controlled">
+    <Example>
+      {() => {
+        const [value, setValue] = React.useState('13:45:00');
+        return (
+          <TimeInput
+            value={value}
+            onChange={setValue}
+            withSeconds
+          />
+        );
+      }}
+    </Example>
+  </Story>
+</Canvas>
+

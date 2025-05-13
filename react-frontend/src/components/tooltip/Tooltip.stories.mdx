@@ -1,0 +1,37 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { ColumnOfItems } from '@thesoulfresh/sass-theming';
+
+import { Tooltip } from './Tooltip.jsx';
+
+<Meta title="Components/Tooltip" />
+
+# Tooltip
+
+<Description of={ Tooltip } />
+
+<Canvas>
+  <Story name="Tooltip" decorators={[ColumnOfItems]}>
+    <Tooltip content="👍">Hover Me!</Tooltip>
+    <Tooltip content="👍" layerOptions={{placement: 'bottom-center'}}>Bottom Tip 👇</Tooltip>
+    <Tooltip content="👍" layerOptions={{placement: 'left-center'}}>Left Tip 👈</Tooltip>
+    <Tooltip content="👍" layerOptions={{placement: 'right-center'}}>Right Tip 👉</Tooltip>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Tooltip } />
+
+## Feel Variations
+
+Similar to the `Action` component, you can pass the `feel` prop to change
+the tooltip feel.
+
+<Canvas>
+  <Story name="Feel Variations" decorators={[ColumnOfItems]}>
+    <Tooltip feel="primary" content="Important!">Primary</Tooltip>
+    <Tooltip feel="secondary" content="Normal Stuff">Secondary</Tooltip>
+    <Tooltip feel="success" content="Great!">Success</Tooltip>
+    <Tooltip feel="warn" content="Watch Out!">Warn</Tooltip>
+    <Tooltip feel="error" content="Bad!">Error</Tooltip>
+  </Story>
+</Canvas>

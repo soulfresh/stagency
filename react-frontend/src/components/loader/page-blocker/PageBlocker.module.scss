@@ -1,0 +1,28 @@
+/* PageBlocker */
+@import "theme";
+
+.PageBlocker {
+  @include absolute-fill;
+  z-index: layer(modal);
+  background-color: background(fade);
+}
+
+.content {
+  @include absolute-centered;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: background(fade);
+  padding: size(s);
+  border-radius: radius(s);
+}
+
+.Loader {
+  width: size(xl);
+  height: size(xl);
+  margin-right: size(s);
+}
+
+.message {
+  color: color(primary);
+}

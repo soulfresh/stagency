@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import Faker from 'faker';
+
+import { wrapWithRouter, listOf } from '~/test';
+import { generate } from '~/services/mocks';
+import { Deals } from './Deals.jsx';
+
+<Meta
+  title="Pages/Deals"
+  decorators={[
+    s => wrapWithRouter(s()),
+  ]}
+/>
+
+# Deals
+
+<Description of={ Deals } />
+
+<Canvas>
+  <Story name="Deals">
+    <Deals
+      deals={listOf(
+        Faker.datatype.number({min: 1, max: 10}),
+        () => generate.app_deal({allowEmpty: false}),
+      )}
+      getDealURL={id => "/#id"}
+    />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Deals } />

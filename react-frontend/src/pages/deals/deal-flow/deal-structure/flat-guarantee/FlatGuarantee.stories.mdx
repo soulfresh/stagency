@@ -1,0 +1,18 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { FlatGuarantee } from './FlatGuarantee.jsx';
+
+<Meta title="Pages/DealStructure/Forms/FlatGuarantee" />
+
+# FlatGuarantee
+
+<Description of={ FlatGuarantee } />
+
+<Canvas>
+  <Story name="FlatGuarantee">
+    <FlatGuarantee onChange={action('onChange')} />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ FlatGuarantee } />

@@ -1,0 +1,23 @@
+<svg
+  width="20"
+  height="20"
+  viewBox="0 0 20 20"
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  style="fill-rule:evenodd;clip-rule:evenodd;"
+  class="stagency-loader page"
+  id="page-loader"
+>
+  <path
+    class="background"
+    d="M10,18.982c4.971,-0 9,-4.03 9,-9c0,-4.971 -4.029,-9 -9,-9c-4.971,-0 -9,4.029 -9,9c-0,4.97 4.029,9 9,9Z"
+    style="fill:none;stroke:#000;stroke-opacity:0.1;stroke-width:2px;"
+  />
+  <path
+    class="progress"
+    d="M10,18.982c4.971,-0 9,-4.03 9,-9c0,-4.971 -4.029,-9 -9,-9c-4.971,-0 -9,4.029 -9,9c-0,4.97 4.029,9 9,9Z"
+    stroke-dasharray="50"
+    stroke-dashoffset="0"
+    style="fill:none;stroke:currentColor;stroke-width:2px;stroke-linecap:round;"
+  />
+</svg>

@@ -1,0 +1,46 @@
+/* Titles */
+@import "theme";
+
+.TitleXL {
+  font-size: font-size(xxxl);
+  line-height: 42px;
+  font-weight: font-weight(extrabold);
+  margin: 0 0 size(m);
+}
+
+.TitleL {
+  font-size: font-size(xxl);
+  line-height: 32px;
+  font-weight: font-weight(extrabold);
+  margin: 0 0 size(s);
+}
+
+.Title {
+  font-size: font-size(xl);
+  line-height: 24px;
+  font-weight: font-weight(extrabold);
+  margin: 0 0 size(xs);
+}
+
+.TitleS {
+  font-size: font-size(l);
+  line-height: 24px;
+  font-weight: font-weight(extrabold);
+  margin: 0 0 size(xxs);
+}
+
+.TitleTiny {
+  font-size: font-size(s);
+  line-height: 18px;
+  font-weight: font-weight(bold);
+  margin: 0;
+}
+
+.CapsLabel {
+  font-size: font-size(s);
+  line-height: 18px;
+  font-weight: font-weight(bold);
+  text-transform: uppercase;
+  margin: 0;
+}
+

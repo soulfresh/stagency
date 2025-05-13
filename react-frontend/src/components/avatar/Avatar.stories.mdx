@@ -1,0 +1,107 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { Row, RowOfItems } from '@thesoulfresh/sass-theming';
+
+import { Avatar } from './Avatar.jsx';
+import { fake } from '~/test';
+
+export const moreSpace = {margin: '10px'};
+
+<Meta title="Components/Avatar" />
+
+# Avatar
+
+<Description of={ Avatar } />
+
+<Canvas>
+  <Story name="Avatar" decorators={[RowOfItems]}>
+    <Avatar tooltip name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+    <Avatar name="Bart J. Simpson" style={moreSpace} />
+    <Avatar labelled subtitle="Do the Bartman" name="Bart J. Simpson" style={moreSpace} />
+  </Story>
+</Canvas>
+
+<ArgsTable of={ Avatar } />
+
+## Sizes
+
+The following sizes of Avatars are available through
+the `size` prop.
+
+<Canvas>
+  <Story name="Sizes">
+    <Row>
+      <Avatar size="s" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar size="m" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar size="l" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar size="xl" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+    </Row>
+    <Row>
+      <Avatar size="s" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar size="m" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar size="l" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar size="xl" name="Bart J. Simpson" style={moreSpace} />
+    </Row>
+  </Story>
+</Canvas>
+
+## Tooltip
+
+You can show a tooltip by adding the `tooltip` prop. This property
+defaults to false since most places in the application do not need it.
+
+<Canvas>
+  <Story name="Tooltip">
+    <Row>
+      <Avatar tooltip size="s" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar tooltip size="m" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar tooltip size="l" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar tooltip size="xl" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+    </Row>
+    <Row>
+      <Avatar tooltip size="s" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar tooltip size="m" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar tooltip size="l" name="Bart J. Simpson" style={moreSpace} />
+      <Avatar tooltip size="xl" name="Bart J. Simpson" style={moreSpace} />
+    </Row>
+  </Story>
+</Canvas>
+
+## Label
+
+You can show the avatar's name as a label next to the icon by passing the
+`labelled` prop. You can also show subtitle text under the label by passing the
+`subtitle` prop.
+
+<Canvas>
+  <Story name="Label">
+    <Row>
+      <Avatar labelled size="s" name="Grumpy&nbsp;Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar labelled size="m" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar labelled size="l" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+      <Avatar labelled size="xl" name="Grumpy Cat" image={fake.profilePicture()} style={moreSpace} />
+    </Row>
+    <Row>
+      <Avatar labelled subtitle="Hero of cats" name="Grumpy Cat" size="s"  style={moreSpace} />
+      <Avatar labelled subtitle="Hero of cats" name="Grumpy Cat" size="m"  style={moreSpace} />
+      <Avatar labelled subtitle="Hero of cats" name="Grumpy Cat" size="l"  style={moreSpace} />
+      <Avatar labelled subtitle="Hero of cats" name="Grumpy Cat" size="xl" style={moreSpace} />
+    </Row>
+  </Story>
+</Canvas>
+
+If you want to show some different text in the label area, you can instead pass
+the `title` prop.
+
+<Canvas>
+  <Story name="Titled">
+    <Avatar
+      name="Grumpy Cat"
+      image={fake.profilePicture()}
+      title="Hero of Cats"
+      subtitle="He's so grumpy!"
+      tooltip
+    />
+  </Story>
+</Canvas>
+

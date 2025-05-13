@@ -1,0 +1,32 @@
+import { Meta, Story, Canvas, ArgsTable, Description } from '@storybook/addon-docs';
+
+import { ExpensesSpreadsheet } from './ExpensesSpreadsheet.jsx';
+import { generate } from '~/services/mocks';
+import { listOf, EXPENSE_TYPES } from '~/test';
+
+<Meta title="Spreadsheets/ExpensesSpreadsheet" />
+
+# ExpensesSpreadsheet
+
+<Description of={ ExpensesSpreadsheet } />
+
+<Canvas>
+  <Story name="ExpensesSpreadsheet">
+    <div
+      style={{
+        height: '50vh',
+      }}
+    >
+      <ExpensesSpreadsheet
+        data={listOf(3, () => generate.app_expense())}
+        types={EXPENSE_TYPES}
+        sellableTickets={100}
+        breakEvenTickets={50}
+        sellableGrossPotential={5000}
+        breakEvenGrossPotential={2500}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<ArgsTable of={ ExpensesSpreadsheet } />

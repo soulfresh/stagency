@@ -1,0 +1,89 @@
+/* Select */
+@import "theme";
+
+.Select {
+  :global(.menu) {
+    outline: none;
+    padding: size(xs) 0;
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  :global(.selected) {
+    .SelectOption {
+      background-color: rgba(color(primary), 0.5);
+    }
+  }
+
+  :global(.highlighted) {
+    .SelectOption {
+      background-color: rgba(color(focus), 0.3);
+    }
+  }
+}
+
+.compact {
+  :global(.menu) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 90vw;
+
+    .SelectOption {
+      padding: size(xs) size(m);
+    }
+
+    @include breakpoint-up(m) {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 600px;
+
+      .SelectOption {
+        padding: size(xs) size(l);
+      }
+    }
+  }
+}
+
+.SelectOption {
+  @include list-option;
+  color: foreground-dark();
+  display: block;
+}
+
+.SelectTrigger {
+  $arrow-width: 10px;
+  $padding-right: size(s) * 2 + $arrow-width;
+
+  @include down-arrow(
+    $style: "chevron",
+    $line-cap: "round",
+    $line-join: "round",
+    $arrow-width: $arrow-width,
+    $stroke-width: 2px,
+  );
+
+  text-align: start !important;
+  background-position: right size(s) top 50%;
+  font-size: font-size(m) !important;
+  font-weight: font-weight(medium) !important;
+  padding-right: $padding-right !important;
+
+  color: foreground(faded-text);
+
+  &:global(.hasValue) {
+    color: foreground();
+    font-weight: font-weight(bold) !important;
+  }
+
+  &.solid {
+    @include down-arrow(
+      $color: foreground-dark(),
+      $style: "chevron",
+      $line-cap: "round",
+      $line-join: "round",
+      $arrow-width: $arrow-width,
+      $stroke-width: 2px,
+    );
+    background-position: right size(s) top 50%;
+  }
+}
+

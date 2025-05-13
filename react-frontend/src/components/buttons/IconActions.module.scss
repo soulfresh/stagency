@@ -1,0 +1,72 @@
+/* IconActions */
+@import "theme";
+
+@mixin animate-svg($transform) {
+  svg {
+    transition: transform speed(s) ease(in-out);
+  }
+
+  @include active {
+    svg {
+      transform: $transform;
+    }
+  }
+}
+
+.children {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.iconWrapper {
+  display: inline-flex;
+
+  &.right {
+    margin-right: size(xxs);
+  }
+
+  &.left {
+    margin-left: size(xxs);
+  }
+}
+
+.CloseAction {
+  @include animate-svg(rotate(90deg));
+}
+
+.NextAction {
+  @include animate-svg(translateX(30%) rotate(-90deg) !important);
+}
+
+.PreviousAction {
+  @include animate-svg(translateX(-30%) rotate(90deg) !important);
+}
+
+.AddAction {
+  @include animate-svg(rotate(90deg) !important);
+
+  @include active {
+    :global(.plus) {
+      transform-origin: center;
+      transform: scale(1.5);
+    }
+  }
+}
+
+.MoreAction {
+  :global(.top), :global(.bottom) {
+    transition: transform speed(s) ease(in-out);
+  }
+
+  @include active {
+    :global(.top) {
+      transform: translateY(-10%);
+    }
+
+    :global(.bottom) {
+      transform: translateY(10%);
+    }
+  }
+}
+

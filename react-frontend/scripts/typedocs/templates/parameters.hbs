@@ -1,0 +1,6 @@
+#### Parameters
+| Name | Type | Default Value |
+| :--- | :--- | :------------ |
+{{#each parameters}}
+| {{name}} | {{>type type}} | {{#if defaultValue}}`{{{defaultValue}}}`{{else}}*-*{{/if}} |
+{{/each}}
